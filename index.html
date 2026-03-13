@@ -3,163 +3,409 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PeM Dashboard v2 â YOM</title>
+<title>PeM Dashboard v3 â YOM</title>
 <style>
-:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#232735;--border:#2e3345;--text:#e4e7ef;--text-dim:#8b90a0;--accent:#6c8cff;--green:#34d399;--yellow:#fbbf24;--orange:#f97316;--red:#ef4444;--purple:#a78bfa;--pink:#f472b6;--blue:#60a5fa}
-[data-theme="light"]{--bg:#f5f6fa;--surface:#fff;--surface2:#eef0f6;--border:#d4d8e8;--text:#1a1d27;--text-dim:#6b7280;--accent:#4f6ed3}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;transition:background .3s}
-.topbar h1{font-size:18px;font-weight:600}.topbar h1 span{color:var(--accent)}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.topbar .meta{font-size:12px;color:var(--text-dim)}
-.theme-toggle{background:var(--surface2);border:1px solid var(--border);border-radius:20px;width:48px;height:26px;cursor:pointer;position:relative;transition:all .3s}
-.theme-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--accent);transition:transform .3s}
-.theme-toggle.light::after{transform:translateX(22px)}
-.btn{padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
-.btn:hover{border-color:var(--accent);color:var(--accent)}
-.search-filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:background .3s}
-.search-input{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 12px 7px 32px;color:var(--text);font-size:13px;width:280px;outline:none;transition:border .2s}
-.search-input:focus{border-color:var(--accent)}
-.search-wrapper{position:relative}
-.search-wrapper svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none}
-.filter-pills{display:flex;gap:4px;flex-wrap:wrap}
-.filter-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-dim);transition:all .2s;white-space:nowrap}
-.filter-pill:hover{border-color:var(--accent);color:var(--text)}
-.filter-pill.active{background:rgba(108,140,255,.15);border-color:var(--accent);color:var(--accent)}
-.search-count{font-size:11px;color:var(--text-dim);margin-left:auto;white-space:nowrap}
-.tabs{display:flex;gap:4px;background:var(--surface);padding:8px 24px;border-bottom:1px solid var(--border);overflow-x:auto;transition:background .3s}
-.tab{padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-dim);transition:all .2s;white-space:nowrap;border:1px solid transparent;display:flex;align-items:center;gap:6px}
-.tab:hover{color:var(--text);background:var(--surface2)}
-.tab.active{color:var(--accent);background:rgba(108,140,255,.1);border-color:rgba(108,140,255,.3)}
-.tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.container{max-width:1400px;margin:0 auto;padding:20px 24px}
-.page{display:none;animation:fadeIn .3s ease}.page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes claude-pulse{0%{box-shadow:inset 0 0 10px rgba(108,140,255,.15),0 0 0 0 rgba(108,140,255,0)}50%{box-shadow:inset 0 0 15px rgba(108,140,255,.25),0 0 15px rgba(108,140,255,.08)}100%{box-shadow:inset 0 0 10px rgba(108,140,255,.15),0 0 0 0 rgba(108,140,255,0)}}
-.kpi-card{animation:claude-pulse 4s ease-in-out infinite}
-.grid{display:grid;gap:16px}.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}.grid-4{grid-template-columns:repeat(4,1fr)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;transition:background .3s,border .3s}
-.card-subtitle{font-size:12px;color:var(--text-dim);margin-top:2px}
-.client-row{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
-.client-row:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.client-row.hidden{display:none}
-.client-name{font-weight:600;font-size:15px;min-width:120px}
-.client-phase{font-size:12px;color:var(--text-dim);background:var(--surface2);padding:3px 8px;border-radius:4px}
-.client-stats{display:flex;gap:16px;margin-left:auto}
-.stat{text-align:center}.stat-value{font-size:18px;font-weight:700}.stat-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600}
-.badge-green{background:rgba(52,211,153,.15);color:var(--green)}.badge-yellow{background:rgba(251,191,36,.15);color:var(--yellow)}.badge-orange{background:rgba(249,115,22,.15);color:var(--orange)}.badge-red{background:rgba(239,68,68,.15);color:var(--red)}.badge-blue{background:rgba(96,165,250,.15);color:var(--blue)}.badge-purple{background:rgba(167,139,250,.15);color:var(--purple)}.badge-gray{background:rgba(139,144,160,.15);color:var(--text-dim)}
-table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;padding:10px 12px;color:var(--text-dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}td{padding:10px 12px;border-bottom:1px solid var(--border)}tr:hover td{background:rgba(108,140,255,.03)}
-tr.task-hidden{display:none}
-.phase-track{display:flex;gap:2px;align-items:center}
-.phase-dot{width:24px;height:8px;border-radius:4px;background:var(--surface2);transition:all .3s}
-.phase-dot.completed{background:var(--green)}.phase-dot.active{background:var(--accent);animation:pulse 2s infinite}.phase-dot.blocked{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.detail-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;transition:background .3s}
-.detail-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.metric-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.metric-box{flex:1;min-width:140px;background:var(--surface2);border-radius:8px;padding:14px;transition:background .3s}
-.metric-box .num{font-size:24px;font-weight:700}.metric-box .label{font-size:11px;color:var(--text-dim);margin-top:2px}
-.alert-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start}.alert-item:last-child{border-bottom:none}
-.alert-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.alert-icon.red{background:rgba(239,68,68,.15)}.alert-icon.orange{background:rgba(249,115,22,.15)}.alert-icon.yellow{background:rgba(251,191,36,.15)}
-.alert-text{font-size:13px;line-height:1.5}.alert-meta{font-size:11px;color:var(--text-dim);margin-top:3px}
-.section-title{font-size:16px;font-weight:600;margin:24px 0 12px;display:flex;align-items:center;gap:8px}
-.section-title .count{background:var(--surface2);color:var(--text-dim);font-size:11px;padding:2px 8px;border-radius:10px}
-.pattern-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;transition:all .2s}
-.pattern-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.pattern-card .pattern-title{font-size:14px;font-weight:600;margin-bottom:8px}
-.pattern-card .pattern-desc{font-size:13px;color:var(--text-dim);line-height:1.5}
-.pattern-card .affected{margin-top:12px;display:flex;gap:6px;flex-wrap:wrap}
+:root{--bg:#f8f9fb;--surface:#fff;--surface2:#f1f3f5;--border:#e2e5e9;--text:#1a1d23;--text-dim:#6b7280;--accent:#4f6ef7;--red:#ef4444;--orange:#f59e0b;--yellow:#eab308;--green:#22c55e;--blue:#3b82f6;--purple:#8b5cf6;--pink:#ec4899}
+[data-theme="dark"]{--bg:#0f1117;--surface:#1a1d27;--surface2:#252830;--border:#2d3039;--text:#e4e7ef;--text-dim:#8b90a0;--accent:#6c8cff;--red:#f87171;--orange:#fbbf24;--yellow:#facc15;--green:#4ade80;--blue:#60a5fa;--purple:#a78bfa;--pink:#f472b6}
+*{margin:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:all .3s}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar h1{font-size:18px;font-weight:700}.topbar h1 sup{font-size:10px;color:var(--text-dim);font-weight:400}
+.topbar-right{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-dim)}
+.theme-toggle{width:48px;height:26px;cursor:pointer;position:relative;background:var(--surface2);border-radius:20px;border:1px solid var(--border)}
+.theme-toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--accent);transition:.3s}
+[data-theme="dark"] .theme-toggle::after{left:25px}
+.nav{display:flex;gap:4px;padding:8px 24px;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;flex-wrap:nowrap}
+.tab{padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-dim);white-space:nowrap;transition:all .2s;border:none;background:none}
+.tab:hover{background:var(--surface2);color:var(--text)}
+.tab.active{background:var(--accent);color:#fff}
+.main{padding:24px;max-width:1400px;margin:0 auto}
+.page{display:none}.page.active{display:block}
+.grid{display:grid;gap:16px}.grid-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.grid-2{grid-template-columns:repeat(auto-fit,minmax(400px,1fr))}.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.kpi-card .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px}
+.kpi-card .value{font-size:36px;font-weight:700;margin:4px 0}
+.kpi-card .sub{font-size:12px;color:var(--text-dim)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.section-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.count{background:var(--surface2);padding:2px 10px;border-radius:12px;font-size:12px;color:var(--text-dim)}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}
+.badge-red{background:rgba(239,68,68,.12);color:var(--red)}
+.badge-orange{background:rgba(245,158,11,.12);color:var(--orange)}
+.badge-yellow{background:rgba(234,179,8,.12);color:var(--yellow)}
+.badge-green{background:rgba(34,197,94,.12);color:var(--green)}
+.badge-blue{background:rgba(59,130,246,.12);color:var(--blue)}
+.badge-gray{background:var(--surface2);color:var(--text-dim)}
+.badge-purple{background:rgba(139,92,250,.12);color:var(--purple)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;border-bottom:2px solid var(--border);font-weight:600;color:var(--text-dim);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 12px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover{background:var(--surface2)}
+.client-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;cursor:pointer;transition:all .2s}
+.client-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.client-name{font-size:16px;font-weight:700;margin-bottom:4px}
+.client-phase{font-size:12px;color:var(--text-dim);margin-bottom:12px}
+.client-stats{display:flex;gap:16px;font-size:12px}
+.client-stat{text-align:center}
+.client-stat .num{font-size:20px;font-weight:700;display:block}
+.client-stat .lbl{color:var(--text-dim)}
+.health-bar{height:6px;background:var(--surface2);border-radius:3px;margin-top:12px;overflow:hidden}
+.health-fill{height:100%;border-radius:3px;transition:width .5s}
+.phase-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.phase-row:last-child{border-bottom:none}
+.phase-label{width:180px;font-size:13px;font-weight:500;flex-shrink:0}
+.phase-clients{display:flex;gap:4px;flex-wrap:wrap}
+.phase-dot{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;cursor:pointer;position:relative}
+.phase-dot:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:4px 8px;border-radius:4px;font-size:11px;white-space:nowrap;z-index:10}
+.pattern-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;border-left:4px solid}
+.pattern-title{font-weight:700;font-size:14px;margin-bottom:4px}
+.pattern-desc{font-size:12px;color:var(--text-dim);margin-bottom:8px}
+.affected{display:flex;gap:4px;flex-wrap:wrap}
 .timeline-container{overflow-x:auto;padding:16px 0}
-.timeline-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
-.timeline-label{min-width:160px;font-size:12px;font-weight:500;flex-shrink:0}
-.timeline-bar-area{flex:1;position:relative;height:20px;min-width:400px}
-.timeline-bar{position:absolute;height:16px;border-radius:4px;top:2px;font-size:10px;color:white;display:flex;align-items:center;padding:0 6px;white-space:nowrap;overflow:hidden}
-.today-line{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:5}
-.today-label{position:absolute;top:-16px;font-size:9px;color:var(--red);font-weight:700;transform:translateX(-50%);white-space:nowrap}
-.loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity .5s}
-.loading.hide{opacity:0;pointer-events:none}
-.loading-spinner{width:40px;height:40px;border:3px solid var(--surface2);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:768px){.grid-4{grid-template-columns:repeat(2,1fr)}.client-row{flex-wrap:wrap}.client-stats{margin-left:0;width:100%;justify-content:space-around}.topbar{padding:10px 16px}.tabs{padding:6px 16px}.container{padding:16px}.search-filter-bar{padding:8px 16px}.search-input{width:100%}}
-@media(max-width:480px){.grid-4{grid-template-columns:1fr}.topbar-right{gap:8px}}
+.timeline-phase{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.timeline-phase:last-child{border-bottom:none}
+.timeline-phase-name{width:160px;font-size:12px;font-weight:600;flex-shrink:0}
+.timeline-bar{flex:1;height:24px;position:relative}
+.timeline-segment{position:absolute;height:20px;border-radius:4px;top:2px;font-size:9px;display:flex;align-items:center;padding:0 4px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;cursor:pointer}
+.detail-section{margin-bottom:24px}
+.detail-section h3{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.task-item{padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.task-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.task-item-name{font-weight:600;font-size:13px}
+.task-item-notes{font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.5}
+.empty-state{text-align:center;padding:40px;color:var(--text-dim);font-size:14px}
+.generated-note{text-align:center;padding:16px;font-size:11px;color:var(--text-dim);border-top:1px solid var(--border);margin-top:32px}
+@media(max-width:768px){.grid-4{grid-template-columns:1fr 1fr}.grid-2,.grid-3{grid-template-columns:1fr}.main{padding:12px}}
 </style>
 </head>
-<body>
-<div class="loading" id="loader"><div class="loading-spinner"></div></div>
+<body data-theme="light">
 <div class="topbar">
-<h1><span>PeM</span> Dashboard <sup style="font-size:10px;color:var(--text-dim)">v2</sup></h1>
+<h1>PeM Dashboard <sup>v3</sup></h1>
 <div class="topbar-right">
-<div class="meta">Actualizado: <span id="lastUpdate"></span></div>
-<button class="btn" onclick="exportCSV()" title="Exportar CSV"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>CSV</button>
-<div style="display:flex;align-items:center;gap:6px">
-<span style="font-size:11px;color:var(--text-dim)">ð</span>
-<div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema"></div>
-<span style="font-size:11px;color:var(--text-dim)">âï¸</span>
+<span id="timestamp"></span>
+<div class="theme-toggle" onclick="toggleTheme()"></div>
 </div>
 </div>
-</div>
-<div class="search-filter-bar">
-<div class="search-wrapper">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-<input type="text" class="search-input" id="searchInput" placeholder="Buscar tareas, fases, notas..." oninput="applyFilters()">
-</div>
-<div class="filter-pills" id="filterPills">
-<div class="filter-pill active" data-filter="all" onclick="setFilter('all')">Todos</div>
-<div class="filter-pill" data-filter="progress" onclick="setFilter('progress')">ð En progreso</div>
-<div class="filter-pill" data-filter="blocked" onclick="setFilter('blocked')">ð« Bloqueado</div>
-<div class="filter-pill" data-filter="pending" onclick="setFilter('pending')">ð¦ Pendiente</div>
-<div class="filter-pill" data-filter="completed" onclick="setFilter('completed')">â Completado</div>
-</div>
-<div class="search-count" id="searchCount"></div>
-</div>
-<div class="tabs" id="tabBar"></div>
-<div class="container">
-<div id="overview" class="page active">
-<div class="grid grid-4" style="margin-bottom:20px">
-<div class="card kpi-card"><div class="card-subtitle">Total Tareas Activas</div><div id="kpi-active" class="stat-value" style="font-size:32px;margin-top:4px">â</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">excluyendo archivadas y completadas</div></div>
-<div class="card kpi-card"><div class="card-subtitle">Bloqueadas</div><div id="kpi-blocked" class="stat-value" style="font-size:32px;margin-top:4px;color:var(--red)">â</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">requieren acciÃ³n inmediata</div></div>
-<div class="card kpi-card"><div class="card-subtitle">Vencidas / Atrasadas</div><div id="kpi-overdue" class="stat-value" style="font-size:32px;margin-top:4px;color:var(--orange)">â</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">pasaron su fecha de tÃ©rmino</div></div>
-<div class="card kpi-card"><div class="card-subtitle">Health Score Promedio</div><div id="kpi-avg-health" class="stat-value" style="font-size:32px;margin-top:4px;color:var(--accent)">â</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">promedio ponderado</div></div>
-</div>
-<div class="section-title">Clientes por Health Score</div>
-<div id="client-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-<div class="section-title" style="margin-top:32px">Alertas Prioritarias <span class="count" id="alert-count">0</span></div>
-<div class="card" id="alert-list" style="max-height:400px;overflow-y:auto;"></div>
-</div>
-<div id="timeline" class="page"></div>
-<div id="patterns" class="page"></div>
-<div id="actions" class="page"></div>
-</div>
+<div class="nav" id="nav"></div>
+<div class="main" id="main"></div>
+<div class="generated-note">Generado desde Notion â ðºï¸ Puesta en Marcha 2026<br><span id="gen-date"></span></div>
+
 <script>
-const DATA={updatedAt:new Date().toISOString(),phases:["1. Levantamiento","2. Entrega de datos y servicios","3. Kick off","4. Integraciones","5. Cuadratura","6. Desarrollos","7. Configuraciones","8. QA y Testing","9. Capacitaciones","10. Rollout","11. Traspaso","12. Review"],clients:{prinorte:{name:"Prinorte",color:"#ef4444",tasks:[{name:"Levantamiento comercial",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-06-01",fechaTermino:"2025-07-15"},{name:"Workshop Ventas",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-07-01",fechaTermino:"2025-07-10"},{name:"Entrega de datos maestros",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-07-15",fechaTermino:"2025-08-01"},{name:"Kick off presencial",fase:"3. Kick off",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-08-05",fechaTermino:"2025-08-10"},{name:"Definir formato integraciÃ³n",fase:"4. Integraciones",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-08-15",fechaTermino:"2025-09-30"},{name:"Conectar datos/servicios",fase:"4. Integraciones",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-09-01",fechaTermino:"2025-11-15"},{name:"Proceso de cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-11-20",fechaTermino:"2025-12-15"},{name:"ValidaciÃ³n de cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-12-16",fechaTermino:"2026-01-10"},{name:"Desarrollos producto",fase:"6. Desarrollos",tipo:"Tarea",estado:"â Completado",fechaInicio:"2025-10-01",fechaTermino:"2026-01-15"},{name:"ConfiguraciÃ³n del sitio",fase:"7. Configuraciones",tipo:"Tarea",estado:"â Completado",fechaInicio:"2026-01-20",fechaTermino:"2026-02-05"},{name:"QA Testing app",fase:"8. QA y Testing",tipo:"Tarea",estado:"â Completado",fechaInicio:"2026-02-05",fechaTermino:"2026-02-20"},{name:"CapacitaciÃ³n de distintos usuarios",fase:"9. Capacitaciones",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-03-11",fechaTermino:"2026-03-18",notas:"Max desarrollando nueva metodologÃ­a. Inicio presencial 11-Mar condicionado a integraciÃ³n correcta."},{name:"CapacitaciÃ³n en terreno Antofagasta",fase:"9. Capacitaciones",tipo:"Sub-tarea",estado:"ð¦Pendiente",fechaInicio:"2026-03-18",fechaTermino:"2026-03-25",notas:"Bloqueada hasta completar capacitaciÃ³n piloto 11-18 Mar."},{name:"Rollout",fase:"10. Rollout",tipo:"Tarea",estado:"ð¦Pendiente",fechaInicio:"2026-03-25",fechaTermino:"2026-04-10"},{name:"Handoff cara al cliente",fase:"11. Traspaso",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"ReuniÃ³n revisiÃ³n errores",fase:"12. Review",tipo:"Tarea",estado:"ð¦Pendiente"}]},caren:{name:"Caren",color:"#fbbf24",tasks:[{name:"Levantamiento",fase:"1. Levantamiento",tipo:"Tarea",estado:"ð En progreso",notas:"Esperando servicios completos para avanzar a integraciÃ³n."},{name:"Entrega de datos",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-02-01",fechaTermino:"2026-03-15"},{name:"Kick off",fase:"3. Kick off",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Definir formato integraciÃ³n",fase:"4. Integraciones",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-03-01",fechaTermino:"2026-03-20",notas:"4ta revisiÃ³n API con Hans. 4 pendientes crÃ­ticos: isInactive, campos null, dueDate, sellersId/distributionCenterIds vacÃ­os."},{name:"ConfiguraciÃ³n del sitio",fase:"7. Configuraciones",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-03-24",fechaTermino:"2026-03-26",notas:"CRÃTICO: sellersId y distributionCenterIds vacÃ­os â app no mostrarÃ¡ nada."},{name:"DocumentaciÃ³n integraciÃ³n",fase:"4. Integraciones",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Proceso de cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"QA Testing",fase:"8. QA y Testing",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Handoff cara al cliente",fase:"11. Traspaso",tipo:"Tarea",estado:"ð¦Pendiente",notas:"Workshops completados. Esperando servicios completos."},{name:"ReuniÃ³n revisiÃ³n errores",fase:"12. Review",tipo:"Tarea",estado:"ð¦Pendiente"}]},bastien:{name:"BastiÃ©n",color:"#f472b6",tasks:[{name:"Levantamiento",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado"},{name:"Entrega de datos",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-02-15",fechaTermino:"2026-03-10",notas:"ReuniÃ³n urgente con BastiÃ©n fallida â cambio de servidor sin aviso."},{name:"Conectar datos/servicios",fase:"4. Integraciones",tipo:"Tarea",estado:"ð« Bloqueado",notas:"Cambio de servidor del lado del cliente sin aviso. Pendiente reagendar."},{name:"Kick off",fase:"3. Kick off",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"ConfiguraciÃ³n",fase:"7. Configuraciones",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"QA Testing",fase:"8. QA y Testing",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Rollout",fase:"10. Rollout",tipo:"Tarea",estado:"ð¦Pendiente"}]},codelpa:{name:"Codelpa PerÃº",color:"#60a5fa",tasks:[{name:"Workshop Comercial",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado"},{name:"Workshop Ventas",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado"},{name:"Workshop TecnologÃ­a y datos",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado"},{name:"Conectar datos/servicios",fase:"4. Integraciones",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2025-10-01",fechaTermino:"2026-03-15",notas:"CatÃ¡logo incompleto. 241 productos pendientes."},{name:"IntegraciÃ³n vendedores",fase:"4. Integraciones",tipo:"Sub-tarea",estado:"ð¦Pendiente",notas:"Ãltima entidad pendiente."},{name:"Definir formato integraciÃ³n",fase:"4. Integraciones",tipo:"Tarea",estado:"â Completado"},{name:"Proceso de cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"ð¦Pendiente",fechaInicio:"2026-04-01",fechaTermino:"2026-04-03"},{name:"ValidaciÃ³n de cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"ð¦Pendiente",fechaInicio:"2026-04-03",fechaTermino:"2026-04-05",notas:"Depende de completar integraciÃ³n."},{name:"Dashboard rutero",fase:"7. Configuraciones",tipo:"Tarea",estado:"ð En progreso",notas:"RevisiÃ³n asignaciones vendedor-comercio pendiente."},{name:"QA y Testing",fase:"8. QA y Testing",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Rollout a producciÃ³n",fase:"10. Rollout",tipo:"Tarea",estado:"ð¦Pendiente",notas:"Sin ambiente prod confirmado."},{name:"Traspaso",fase:"11. Traspaso",tipo:"Tarea",estado:"ð¦Pendiente"}]},soprole:{name:"Soprole",color:"#f97316",tasks:[{name:"Levantamiento comercial",fase:"1. Levantamiento",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-02-01",fechaTermino:"2026-03-15"},{name:"Entrega de datos",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Kick off",fase:"3. Kick off",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Integraciones",fase:"4. Integraciones",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"ConfiguraciÃ³n B2B",fase:"7. Configuraciones",tipo:"Tarea",estado:"ð¦Pendiente"}]},cedisur:{name:"Cedisur",color:"#60a5fa",tasks:[{name:"Levantamiento",fase:"1. Levantamiento",tipo:"Tarea",estado:"â Completado"},{name:"Entrega datos",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"â Completado"},{name:"Kick off",fase:"3. Kick off",tipo:"Tarea",estado:"â Completado"},{name:"Integraciones",fase:"4. Integraciones",tipo:"Tarea",estado:"â Completado"},{name:"Cuadratura",fase:"5. Cuadratura",tipo:"Tarea",estado:"â Completado"},{name:"ConfiguraciÃ³n",fase:"7. Configuraciones",tipo:"Tarea",estado:"â Completado"},{name:"QA y Testing",fase:"8. QA y Testing",tipo:"Tarea",estado:"ð En progreso",notas:"Fix cobranza: transferencia y cheque pasan como Mercado Pago."},{name:"Fix cobranza",fase:"8. QA y Testing",tipo:"Sub-tarea",estado:"ð En progreso",notas:"Bug persiste tras pruebas en campo."},{name:"Capacitaciones",fase:"9. Capacitaciones",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Rollout",fase:"10. Rollout",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Traspaso",fase:"11. Traspaso",tipo:"Tarea",estado:"ð¦Pendiente"}]},coexito:{name:"CoÃ©xito",color:"#92400e",tasks:[{name:"Levantamiento",fase:"1. Levantamiento",tipo:"Tarea",estado:"ð En progreso",fechaInicio:"2026-03-01",fechaTermino:"2026-03-20"},{name:"Entrega datos",fase:"2. Entrega de datos y servicios",tipo:"Tarea",estado:"ð¦Pendiente"},{name:"Kick off",fase:"3. Kick off",tipo:"Tarea",estado:"ð¦Pendiente"}]}}};
-let currentFilter='all',currentSearch='';
-function toggleTheme(){const el=document.documentElement,t=document.getElementById('themeToggle');if(el.getAttribute('data-theme')==='light'){el.removeAttribute('data-theme');t.classList.remove('light');try{localStorage.setItem('pem-theme','dark')}catch(e){}}else{el.setAttribute('data-theme','light');t.classList.add('light');try{localStorage.setItem('pem-theme','light')}catch(e){}}}
-function initTheme(){try{if(localStorage.getItem('pem-theme')==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('themeToggle').classList.add('light')}}catch(e){}}
-function exportCSV(){const rows=[['Cliente','Tarea','Fase','Tipo','Estado','Inicio','TÃ©rmino','Notas']];Object.values(DATA.clients).forEach(c=>{c.tasks.forEach(t=>{rows.push([c.name,t.name,t.fase,t.tipo||'',t.estado.replace(/[^\w\s]/g,'').trim(),t.fechaInicio||'',t.fechaTermino||'',(t.notas||'').replace(/"/g,'""')])})});const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`pem-dashboard-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url)}
-function calcHealth(tasks){const total=tasks.length;if(!total)return{score:0,completed:0,inProgress:0,blocked:0,pending:0,review:0,overdue:0,stale:0,total:0};const completed=tasks.filter(t=>t.estado==="â Completado").length;const inProgress=tasks.filter(t=>t.estado==="ð En progreso").length;const blocked=tasks.filter(t=>t.estado==="ð« Bloqueado").length;const pending=tasks.filter(t=>t.estado==="ð¦Pendiente").length;const review=tasks.filter(t=>t.estado==="ð§ En RevisiÃ³n").length;const today=new Date();const overdue=tasks.filter(t=>{if(t.estado==="â Completado")return false;if(!t.fechaTermino)return false;return new Date(t.fechaTermino)<today}).length;const stale=tasks.filter(t=>{if(t.estado!=="ð En progreso")return false;if(!t.fechaInicio)return true;return(today-new Date(t.fechaInicio))/864e5>14}).length;const completionBonus=(completed/total)*35;const phasesWithWork=new Set(tasks.filter(t=>t.estado!=="ð¦Pendiente").map(t=>t.fase)).size;const totalPhases=new Set(tasks.map(t=>t.fase)).size;const phaseCoverage=totalPhases>0?(phasesWithWork/totalPhases)*10:5;const momentum=inProgress>0?5:0;const blockPenalty=Math.min(25,blocked*12.5);const overduePenalty=Math.min(20,overdue*10);const stalePenalty=Math.min(10,stale*5);const score=Math.max(0,Math.min(100,Math.round(30+completionBonus+phaseCoverage+momentum-blockPenalty-overduePenalty-stalePenalty)));return{score,total,completed,inProgress,blocked,pending,review,overdue,stale}}
-function healthColor(s){if(s>=75)return'var(--green)';if(s>=50)return'var(--yellow)';if(s>=30)return'var(--orange)';return'var(--red)'}
-function badgeClass(e){return({"â Completado":"badge-green","ð En progreso":"badge-blue","ð« Bloqueado":"badge-red","ð¦Pendiente":"badge-gray","ð§ En RevisiÃ³n":"badge-yellow","ðï¸ Archivado":"badge-purple"})[e]||"badge-gray"}
-function getActivePhase(tasks){let h=-1;tasks.forEach(t=>{if(t.estado==="ð En progreso"||t.estado==="ð§ En RevisiÃ³n"){const i=DATA.phases.indexOf(t.fase);if(i>h)h=i}});return h>=0?DATA.phases[h]:"â"}
-function phaseTrackHTML(tasks){return DATA.phases.map(p=>{const pt=tasks.filter(t=>t.fase===p);if(!pt.length)return'<div class="phase-dot" title="'+p+'"></div>';if(pt.every(t=>t.estado==="â Completado"))return'<div class="phase-dot completed" title="'+p+': Completado"></div>';if(pt.some(t=>t.estado==="ð« Bloqueado"))return'<div class="phase-dot blocked" title="'+p+': Bloqueado"></div>';if(pt.some(t=>t.estado==="ð En progreso"||t.estado==="ð§ En RevisiÃ³n"))return'<div class="phase-dot active" title="'+p+': En progreso"></div>';return'<div class="phase-dot" title="'+p+': Pendiente"></div>'}).join('')}
-function setFilter(f){currentFilter=f;document.querySelectorAll('.filter-pill').forEach(p=>p.classList.toggle('active',p.dataset.filter===f));applyFilters()}
-function applyFilters(){currentSearch=document.getElementById('searchInput').value.toLowerCase().trim();const q=currentSearch,f=currentFilter;let shown=0,total=0;document.querySelectorAll('.client-row[data-client]').forEach(row=>{const key=row.dataset.client;const client=DATA.clients[key];if(!client)return;const match=client.tasks.some(t=>matchTask(t,q,f,client.name));row.classList.toggle('hidden',!match&&(q||f!=='all'))});document.querySelectorAll('tr[data-task-estado]').forEach(tr=>{const estado=tr.dataset.taskEstado;const text=tr.dataset.taskText||'';total++;let show=true;if(f!=='all')show=matchEstadoFilter(estado,f);if(show&&q)show=text.includes(q);tr.classList.toggle('task-hidden',!show);if(show)shown++});const countEl=document.getElementById('searchCount');if(q||f!=='all')countEl.textContent=shown+' de '+total+' tareas';else countEl.textContent=''}
-function matchTask(t,q,f,cn){if(f!=='all'&&!matchEstadoFilter(t.estado,f))return false;if(!q)return true;return[t.name,t.fase,t.notas||'',cn].join(' ').toLowerCase().includes(q)}
-function matchEstadoFilter(e,f){if(f==='all')return true;if(f==='progress')return e==="ð En progreso";if(f==='blocked')return e==="ð« Bloqueado";if(f==='pending')return e==="ð¦Pendiente";if(f==='completed')return e==="â Completado";return true}
-function buildTabs(){const tb=document.getElementById('tabBar');tb.innerHTML='<div class="tab active" onclick="showPage(\'overview\')">Vista General</div>';Object.entries(DATA.clients).forEach(([k,c])=>{const d=document.createElement('div');d.className='tab';d.onclick=()=>showPage(k);d.innerHTML='<span class="tab-dot" style="background:'+c.color+'"></span>'+c.name;tb.appendChild(d);if(!document.getElementById(k)){const pg=document.createElement('div');pg.id=k;pg.className='page';document.querySelector('.container').appendChild(pg)}});['timeline','patterns','actions'].forEach(id=>{const d=document.createElement('div');d.className='tab';d.onclick=()=>showPage(id);d.textContent=id==='timeline'?'Timeline':id==='patterns'?'Patrones':'Acciones';tb.appendChild(d)})}
-function render(){document.getElementById('lastUpdate').textContent=new Date(DATA.updatedAt).toLocaleString('es-CL');const entries=Object.entries(DATA.clients).map(([key,c])=>({key,...c,health:calcHealth(c.tasks)})).sort((a,b)=>a.health.score-b.health.score);let tA=0,tB=0,tO=0,tS=0;entries.forEach(e=>{tA+=e.health.inProgress+e.health.pending+e.health.blocked+e.health.review;tB+=e.health.blocked;tO+=e.health.overdue;tS+=e.health.score});document.getElementById('kpi-active').textContent=tA;document.getElementById('kpi-blocked').textContent=tB;document.getElementById('kpi-overdue').textContent=tO;document.getElementById('kpi-avg-health').textContent=Math.round(tS/entries.length);
-document.getElementById('client-list').innerHTML=entries.map(e=>'<div class="client-row" data-client="'+e.key+'" onclick="showPage(\''+e.key+'\')"><div style="width:6px;height:40px;border-radius:3px;background:'+e.color+';flex-shrink:0"></div><div><div class="client-name">'+e.name+'</div><div class="client-phase">'+getActivePhase(e.tasks)+'</div></div><div class="phase-track" style="flex:1;justify-content:center;">'+phaseTrackHTML(e.tasks)+'</div><div class="client-stats"><div class="stat"><div class="stat-value" style="color:'+healthColor(e.health.score)+'">'+e.health.score+'</div><div class="stat-label">Health</div></div><div class="stat"><div class="stat-value">'+e.health.completed+'/'+e.health.total+'</div><div class="stat-label">Listas</div></div><div class="stat"><div class="stat-value" style="color:'+(e.health.blocked>0?'var(--red)':'var(--text-dim)')+'">'+e.health.blocked+'</div><div class="stat-label">Bloq.</div></div><div class="stat"><div class="stat-value" style="color:'+(e.health.overdue>0?'var(--orange)':'var(--text-dim)')+'">'+e.health.overdue+'</div><div class="stat-label">Venc.</div></div></div></div>').join('');
-const alerts=[];const today=new Date();entries.forEach(e=>{e.tasks.forEach(t=>{if(t.estado==="ð« Bloqueado")alerts.push({level:'red',icon:'ð«',client:e.name,text:t.name+' â BLOQUEADA',detail:t.notas||'',key:e.key});if(t.notas&&t.notas.includes('CRÃTICO'))alerts.push({level:'red',icon:'ð´',client:e.name,text:t.name+' â Issue crÃ­tico',detail:t.notas,key:e.key});if(t.fechaTermino&&t.estado!=="â Completado"&&new Date(t.fechaTermino)<today){const d=Math.round((today-new Date(t.fechaTermino))/864e5);alerts.push({level:'orange',icon:'â°',client:e.name,text:t.name+' â Vencida hace '+d+' dÃ­as',detail:t.notas||'',key:e.key})}if(t.notas&&t.notas.includes('Bug persiste'))alerts.push({level:'yellow',icon:'ð',client:e.name,text:t.name+' â Bug no resuelto',detail:t.notas,key:e.key})})});
-document.getElementById('alert-count').textContent=alerts.length;document.getElementById('alert-list').innerHTML=alerts.length===0?'<div style="padding:20px;text-align:center;color:var(--text-dim)">Sin alertas</div>':alerts.map(a=>'<div class="alert-item" style="cursor:pointer" onclick="showPage(\''+a.key+'\')"><div class="alert-icon '+a.level+'">'+a.icon+'</div><div><div class="alert-text"><strong>'+a.client+'</strong> â '+a.text+'</div><div class="alert-meta">'+(a.detail?a.detail.substring(0,150):'')+'</div></div></div>').join('');
-entries.forEach(e=>renderClient(e));renderTimeline(entries);renderPatterns(entries);renderActions(entries)}
-function renderClient(e){const h=e.health;const el=document.getElementById(e.key);el.innerHTML='<div class="detail-panel"><div class="detail-header"><div><h2 style="display:flex;align-items:center;gap:10px"><span style="width:12px;height:12px;border-radius:50%;background:'+e.color+';display:inline-block"></span>'+e.name+'</h2><div style="color:var(--text-dim);font-size:13px;margin-top:4px">Fase activa: '+getActivePhase(e.tasks)+'</div></div><div style="text-align:center"><div style="font-size:36px;font-weight:700;color:'+healthColor(h.score)+'">'+h.score+'</div><div style="font-size:11px;color:var(--text-dim)">HEALTH SCORE</div></div></div><div class="metric-row"><div class="metric-box"><div class="num">'+h.total+'</div><div class="label">Total</div></div><div class="metric-box"><div class="num" style="color:var(--green)">'+h.completed+'</div><div class="label">Completadas</div></div><div class="metric-box"><div class="num" style="color:var(--blue)">'+h.inProgress+'</div><div class="label">En progreso</div></div><div class="metric-box"><div class="num" style="color:var(--red)">'+h.blocked+'</div><div class="label">Bloqueadas</div></div><div class="metric-box"><div class="num" style="color:var(--orange)">'+h.overdue+'</div><div class="label">Vencidas</div></div><div class="metric-box"><div class="num">'+h.pending+'</div><div class="label">Pendientes</div></div></div><div style="margin:16px 0"><div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">Progreso por fase</div><div class="phase-track" style="gap:4px">'+phaseTrackHTML(e.tasks)+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px"><span>Levantamiento</span><span>Review</span></div></div></div><div class="section-title" style="margin-top:20px">Detalle de Tareas</div><div class="card" style="overflow-x:auto"><table><thead><tr><th>Estado</th><th>Tarea</th><th>Fase</th><th>Inicio</th><th>TÃ©rmino</th><th>Notas</th></tr></thead><tbody>'+e.tasks.map(t=>{const st=[t.name,t.fase,t.notas||'',e.name].join(' ').toLowerCase();return'<tr data-task-estado="'+t.estado+'" data-task-text="'+st.replace(/"/g,'&quot;')+'"><td><span class="badge '+badgeClass(t.estado)+'">'+t.estado.replace(/[^\w\s]/g,'').trim()+'</span></td><td>'+t.name+'</td><td style="color:var(--text-dim)">'+t.fase+'</td><td style="color:var(--text-dim);font-size:12px">'+(t.fechaInicio||'â')+'</td><td style="color:var(--text-dim);font-size:12px">'+(t.fechaTermino||'â')+'</td><td style="font-size:12px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+((t.notas||'').replace(/"/g,'&quot;'))+'">'+(t.notas||'')+'</td></tr>'}).join('')+'</tbody></table></div>'}
-function renderTimeline(entries){const el=document.getElementById('timeline');const all=[];entries.forEach(e=>{e.tasks.forEach(t=>{if(t.fechaInicio&&t.fechaTermino)all.push({...t,cn:e.name,cc:e.color})})});if(!all.length){el.innerHTML='<div class="card" style="padding:40px;text-align:center;color:var(--text-dim)">No hay tareas con fechas para el timeline.</div>';return}const dates=all.flatMap(t=>[new Date(t.fechaInicio),new Date(t.fechaTermino)]);const mn=new Date(Math.min(...dates)),mx=new Date(Math.max(...dates)),td=Math.max(1,(mx-mn)/864e5);const sc={"â Completado":"var(--green)","ð En progreso":"var(--accent)","ð« Bloqueado":"var(--red)","ð¦Pendiente":"var(--text-dim)"};const today=new Date();const todayPos=((today-mn)/864e5/td*100);const todayHTML=(todayPos>=0&&todayPos<=100)?'<div class="today-line" style="left:'+todayPos.toFixed(1)+'%"><div class="today-label">HOY</div></div>':'';const rows=all.map(t=>{const s=(new Date(t.fechaInicio)-mn)/864e5;const d=Math.max(5,(new Date(t.fechaTermino)-new Date(t.fechaInicio))/864e5);const l=(s/td*100).toFixed(1);const w=(d/td*100).toFixed(1);return'<div class="timeline-row"><div class="timeline-label"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+t.cc+';margin-right:6px"></span>'+t.cn+': '+t.name.substring(0,25)+'</div><div class="timeline-bar-area">'+todayHTML+'<div class="timeline-bar" style="left:'+l+'%;width:'+w+'%;background:'+(sc[t.estado]||'var(--text-dim)')+';opacity:.85" title="'+t.name+' ('+t.fechaInicio+' â '+t.fechaTermino+')">'+(d>15?t.name.substring(0,20):'')+'</div></div></div>'}).join('');const months=[];const dd=new Date(mn);dd.setDate(1);while(dd<=mx){const p=((dd-mn)/864e5/td*100).toFixed(1);months.push('<span style="position:absolute;left:'+p+'%;font-size:10px;color:var(--text-dim);border-left:1px solid var(--border);padding-left:4px;top:0">'+dd.toLocaleDateString('es-CL',{month:'short',year:'2-digit'})+'</span>');dd.setMonth(dd.getMonth()+1)}el.innerHTML='<div class="section-title">Timeline de Tareas <span class="badge badge-red" style="font-size:10px">HOY: '+today.toLocaleDateString('es-CL')+'</span></div><div class="card"><div style="position:relative;height:24px;margin-bottom:8px;margin-left:168px;min-width:400px">'+months.join('')+'</div><div class="timeline-container">'+rows+'</div></div>'}
-function renderPatterns(entries){const p=[];const ii=[];entries.forEach(e=>{if(e.tasks.filter(t=>t.fase==="4. Integraciones"&&t.estado!=="â Completado").length>0)ii.push(e.name)});if(ii.length>=2)p.push({title:'Cuello de botella en Integraciones',desc:'MÃºltiples clientes con tareas de integraciÃ³n no completadas.',affected:ii,severity:'high'});const md=[];entries.forEach(e=>{const n=e.tasks.filter(t=>t.estado!=="â Completado"&&!t.fechaTermino).length;if(n>2)md.push(e.name+' ('+n+')')});if(md.length)p.push({title:'Tareas sin fechas definidas',desc:md.length+' clientes con tareas sin fecha de tÃ©rmino.',affected:md,severity:'medium'});const cb=[];entries.forEach(e=>{e.tasks.forEach(t=>{if(t.estado==="ð« Bloqueado"||t.notas&&t.notas.includes('cambio de servidor'))cb.push(e.name)})});if(cb.length)p.push({title:'Bloqueos dependientes del cliente',desc:'Bloqueos por acciones pendientes del lado del cliente.',affected:[...new Set(cb)],severity:'high'});const bi=[];entries.forEach(e=>{e.tasks.forEach(t=>{if(t.notas&&(t.notas.includes('Bug persiste')||t.notas.includes('Fix anterior')))bi.push(e.name)})});if(bi.length)p.push({title:'Regresiones de bugs en QA',desc:'Fixes que no resuelven el problema original.',affected:[...new Set(bi)],severity:'medium'});const ep=entries.filter(e=>{const ph=e.tasks.map(t=>DATA.phases.indexOf(t.fase)).filter(i=>i>=0);return Math.max(...ph)<=3});if(ep.length>=2)p.push({title:'Clientes en fases tempranas',desc:ep.length+' clientes aÃºn no pasan de Fase 4.',affected:ep.map(e=>e.name),severity:'info'});document.getElementById('patterns').innerHTML='<div class="section-title">Patrones Detectados <span class="count">'+p.length+'</span></div><div class="grid grid-2">'+p.map(x=>'<div class="pattern-card" style="border-left:3px solid '+(x.severity==='high'?'var(--red)':x.severity==='medium'?'var(--orange)':'var(--blue)')+'"><div class="pattern-title">'+x.title+'</div><div class="pattern-desc">'+x.desc+'</div><div class="affected">'+x.affected.map(a=>'<span class="badge badge-gray">'+a+'</span>').join('')+'</div></div>').join('')+'</div>'}
-function renderActions(entries){const actions=[];const today=new Date();entries.forEach(e=>{e.tasks.forEach(t=>{if(t.estado==="ð« Bloqueado")actions.push({p:1,client:e.name,action:'Desbloquear: '+t.name,detail:t.notas||'',type:'desbloqueo',key:e.key});if(t.notas&&t.notas.includes('CRÃTICO'))actions.push({p:1,client:e.name,action:'Resolver: '+t.name,detail:t.notas,type:'crÃ­tico',key:e.key});if(t.fechaTermino&&t.estado!=="â Completado"&&new Date(t.fechaTermino)<today)actions.push({p:2,client:e.name,action:'Actualizar fecha: '+t.name,detail:'Vencida desde '+t.fechaTermino,type:'vencimiento',key:e.key})});const nd=e.tasks.filter(t=>t.estado!=="â Completado"&&!t.fechaTermino);if(nd.length>2)actions.push({p:3,client:e.name,action:'Definir fechas para '+nd.length+' tareas',detail:nd.map(t=>t.name).join(', '),type:'planificaciÃ³n',key:e.key})});actions.sort((a,b)=>a.p-b.p);const tc={desbloqueo:'var(--red)',crÃ­tico:'var(--red)',vencimiento:'var(--orange)',planificaciÃ³n:'var(--yellow)'};document.getElementById('actions').innerHTML='<div class="section-title">Acciones Requeridas <span class="count">'+actions.length+'</span></div><div class="card" style="overflow-x:auto"><table><thead><tr><th>P</th><th>Cliente</th><th>AcciÃ³n</th><th>Tipo</th><th>Detalle</th></tr></thead><tbody>'+actions.map(a=>'<tr style="cursor:pointer" onclick="showPage(\''+a.key+'\')"><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(tc[a.type]||'var(--text-dim)')+'"></span> P'+a.p+'</td><td style="font-weight:600">'+a.client+'</td><td>'+a.action+'</td><td><span class="badge badge-'+(a.type==='desbloqueo'||a.type==='crÃ­tico'?'red':a.type==='vencimiento'?'orange':'yellow')+'">'+a.type+'</span></td><td style="font-size:12px;color:var(--text-dim);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+((a.detail||'').replace(/"/g,'&quot;'))+'">'+a.detail+'</td></tr>').join('')+'</tbody></table></div>'}
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));const pg=document.getElementById(id);if(pg)pg.classList.add('active');document.querySelectorAll('.tab').forEach(t=>{if(t.onclick&&t.onclick.toString().includes("'"+id+"'"))t.classList.add('active')});window.scrollTo({top:0,behavior:'smooth'});setTimeout(applyFilters,50)}
-initTheme();buildTabs();render();setTimeout(()=>document.getElementById('loader').classList.add('hide'),600);
+// === DATA FROM NOTION ===
+const DATA = {
+  generated: "2026-03-12T17:38:00-03:00",
+  clients: ["Prinorte","Caren","BastiÃ©n","Codelpa PerÃº","Soprole","Cedisur","CoÃ©xito"],
+  clientColors: {Prinorte:"#ef4444",Caren:"#eab308",BastiÃ©n:"#ec4899","Codelpa PerÃº":"#3b82f6",Soprole:"#f59e0b",Cedisur:"#3b82f6",CoÃ©xito:"#92400e"},
+  phases: ["1. Levantamiento","2. Entrega de datos y servicios","3. Kick off","4. Integraciones","5. Cuadratura","6. Desarrollos","7. Configuraciones","8. QA y Testing","9. Capacitaciones","10. Rollout","11. Traspaso","12. Review"],
+  states: ["ð¦Pendiente","ð En progreso","â Completado","ð« Bloqueado","ð§ En RevisiÃ³n","ðï¸ Archivado"],
+  tasks: [
+    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"3. Kick off","FechaInicio":"2026-03-22","FechaTermino":"2026-03-22","Bloqueado":"","Notas":"Workshops completados (ventas, tecnologÃ­a, comercial). Caren en levantamiento esperando servicios completos. Pendiente: Daniel debe enviar cambios requeridos, Alejandro debe enviar roadmap al cliente.","Responsables":[]},
+    {"Tarea":"InyecciÃ³n de pedidos cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"6. Desarrollos","FechaInicio":"2026-03-16","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"8. QA y Testing","FechaInicio":"2026-04-15","FechaTermino":"2026-04-17","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"CapacitaciÃ³n de distintos usuarios","Tipo":"Tarea","Cliente":"Prinorte","Estado":"ð En progreso","Fase":"9. Capacitaciones","FechaInicio":"2026-03-11","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"Max estÃ¡ desarrollando nueva metodologÃ­a de capacitaciÃ³n. Inicio presencial programado miÃ©rcoles 11.","Responsables":["Project Manager"]},
+    {"Tarea":"Proceso de cuadratura","Tipo":"Tarea","Cliente":"Prinorte","Estado":"ð En progreso","Fase":"5. Cuadratura","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"ConexiÃ³n establecida, errores de prisma resueltos, transacciones llegando correctamente. Pendiente: armar categorÃ­as (asignado a Daniel).","Responsables":["Data team"]},
+    {"Tarea":"Cuadratura de datos con cliente","Tipo":"Sub-tarea","Cliente":"Prinorte","Estado":"ð¦Pendiente","Fase":null,"FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"BastiÃ©n","Estado":"ð« Bloqueado","Fase":"4. Integraciones","FechaInicio":null,"FechaTermino":null,"Bloqueado":"Exxis no ha entregado datos ni confirmado plazo de entrega. Miguel (BBone) coordinando.","Notas":"ReuniÃ³n urgente fallida â cambio de servidor sin previo aviso causÃ³ pÃ©rdida total de conectividad. Miguel (BBone) re-coordinarÃ¡ cuando se restauren accesos. Error API activo. Follow-up plazo de entrega Exxis â Francisco insiste en necesitar fecha.","Responsables":["QA Specialist"]},
+    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"â Completado","Fase":"3. Kick off","FechaInicio":"2025-09-14","FechaTermino":"2025-09-14","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"4. Integraciones","FechaInicio":"2025-09-14","FechaTermino":null,"Bloqueado":"","Notas":"IntegraciÃ³n base corriendo desde Oct-2025. CatÃ¡logo incompleto â 241 prods, 3 segmentos, 1 con 0 prods, 29 con override mal. Camilo (Codelpa) confirmÃ³ Excel con todos los productos habilitados. Pendiente: Daniel debe enviar ejemplo de producto.","Responsables":[]},
+    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"CatÃ¡logo incompleto: 241 prods, 3 segmentos, 1 segmento con 0 prods habilitados, 29 prods con precios override mal. ValidaciÃ³n MongoâRDS pendiente con Mario/Virtus.","Responsables":["QA Specialist","Project Manager"]},
+    {"Tarea":"Pruebas end to end","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":"2025-09-24","FechaTermino":null,"Bloqueado":"","Notas":"InserciÃ³n pedidos OK. Pruebas vendedores frenadas por Vicente. Paso a producciÃ³n solicitado Nov-2025. Sin evidencia de pruebas E2E completas en 2026.","Responsables":["QA Specialist"]},
+    {"Tarea":"Rollout a producciÃ³n","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Codelpa solicitÃ³ paso a producciÃ³n en Nov-2025. Pendientes: disponibilizar servicios producciÃ³n y levantar ambiente. Sin confirmaciÃ³n de ambiente prod activo en 2026.","Responsables":["Project Manager","LÃ­der PeM","Tech cliente"]},
+    {"Tarea":"Traspaso a Customer Outcomes","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Proyecto aÃºn en Fases 4-8. Traspaso a CO no aplicable hasta completar rollout.","Responsables":["LÃ­der PeM","Customer Outcomes","Project Manager"]},
+    {"Tarea":"Review post-lanzamiento","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["LÃ­der PeM","Customer Outcomes","Project Manager"]},
+    {"Tarea":"Paso a producciÃ³n B2B v2.0","Tipo":"Tarea","Cliente":"Soprole","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Ãnico pendiente PeM: esperar que el cliente autorice paso a producciÃ³n. Todo lo demÃ¡s estÃ¡ listo. CondiciÃ³n: dominio creado y configurado.","Responsables":["Project Manager","LÃ­der PeM"]},
+    {"Tarea":"CreaciÃ³n y configuraciÃ³n del dominio","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"ð En progreso","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Cecilia (Soprole) confirma validaciÃ³n dominio producciÃ³n en curso con Ciberseguridad e Infraestructura. Quantor necesita 2 dÃ­as para SFTP productivo. Ruta crÃ­tica.","Responsables":[]},
+    {"Tarea":"Monitoreo go-live desde las 8am del 11-Mar","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"Alejandro confirmÃ³ que Soprole aÃºn NO pasa a producciÃ³n. Monitoreo pendiente hasta que se defina nuevo go-live.","Responsables":[]},
+    {"Tarea":"Desarrollo precio por kg","Tipo":"Tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"6. Desarrollos","FechaInicio":null,"FechaTermino":"2026-03-14","Bloqueado":"","Notas":"Alejandro dijo 'imposible meterlo ahora' en Slack pero en minuta confirmÃ³ 'la vamos a tener el viernes'. Fecha estimada: viernes 14-Mar-2026.","Responsables":[]},
+    {"Tarea":"Fix cobranza transferencias/cheques","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Bug persiste: transferencia y cheque siguen pasando como Mercado Pago. 5 intentos totales, 2 fallaron (cheque). Daniel trabajando en el fix.","Responsables":[]},
+    {"Tarea":"Prueba de campo 11-Mar","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"DÃ­a 2 pruebas en terreno. Bugs de pagos y precios detectados. ReuniÃ³n 13-Mar 14:30 confirmada para revisar resultados.","Responsables":[]},
+    {"Tarea":"Paso a producciÃ³n","Tipo":"Tarea","Cliente":"Cedisur","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Condicionado a: (1) fix pagos, (2) peso por kg viernes, (3) pruebas campo exitosas.","Responsables":["Project Manager","LÃ­der PeM"]},
+    {"Tarea":"DocumentaciÃ³n de integraciÃ³n","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead"]},
+    {"Tarea":"ReuniÃ³n de entrega interna","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead","Customer Outcomes"]},
+    {"Tarea":"ReuniÃ³n de entrega externa","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["PM cliente","Project Manager","Customer Outcomes"]},
+    {"Tarea":"ReuniÃ³n de revisiÃ³n de errores, aciertos y mejoras","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["LÃ­der PeM","Project Manager","Integrations Lead","QA Specialist","Integrations partner","Business Analyst"]}
+  ]
+};
+
+// === HELPERS ===
+function toggleTheme(){
+  const t=document.body.dataset.theme==='dark'?'light':'dark';
+  document.body.dataset.theme=t;localStorage.setItem('pem-theme',t);
+}
+(function initTheme(){const t=localStorage.getItem('pem-theme');if(t)document.body.dataset.theme=t;})();
+
+document.getElementById('timestamp').textContent='Actualizado: '+new Date(DATA.generated).toLocaleString('es-CL');
+document.getElementById('gen-date').textContent='Ãltima sincronizaciÃ³n: '+new Date(DATA.generated).toLocaleString('es-CL');
+
+const today=new Date();
+function isOverdue(t){return t.FechaTermino&&t.Estado!=='â Completado'&&t.Estado!=='ðï¸ Archivado'&&new Date(t.FechaTermino)<today}
+function isActive(t){return t.Estado!=='â Completado'&&t.Estado!=='ðï¸ Archivado'}
+function clientTasks(c){return DATA.tasks.filter(t=>t.Cliente===c)}
+function stateBadge(s){
+  if(s.includes('Bloqueado'))return'<span class="badge badge-red">'+s+'</span>';
+  if(s.includes('progreso'))return'<span class="badge badge-blue">'+s+'</span>';
+  if(s.includes('Completado'))return'<span class="badge badge-green">'+s+'</span>';
+  if(s.includes('RevisiÃ³n'))return'<span class="badge badge-orange">'+s+'</span>';
+  if(s.includes('Pendiente'))return'<span class="badge badge-gray">'+s+'</span>';
+  return'<span class="badge badge-gray">'+s+'</span>';
+}
+
+// === HEALTH SCORE (0-100, lower=better) ===
+function healthScore(client){
+  const tasks=clientTasks(client).filter(isActive);
+  if(!tasks.length)return{score:100,label:'Sin tareas',color:'var(--green)'};
+  const blocked=tasks.filter(t=>t.Estado.includes('Bloqueado')).length;
+  const overdue=tasks.filter(isOverdue).length;
+  const total=tasks.length;
+  const completed=clientTasks(client).filter(t=>t.Estado.includes('Completado')).length;
+  const allTasks=clientTasks(client).length;
+  const progress=allTasks>0?(completed/allTasks)*100:0;
+  // Score: blocked+overdue penalize heavily, low progress penalizes
+  let score=100-progress;
+  score+=blocked*25;
+  score+=overdue*15;
+  score=Math.max(0,Math.min(100,Math.round(score)));
+  const color=score<=30?'var(--green)':score<=60?'var(--orange)':'var(--red)';
+  const label=score<=30?'Saludable':score<=60?'AtenciÃ³n':'CrÃ­tico';
+  return{score,label,color};
+}
+
+// === CURRENT PHASE (most advanced active phase) ===
+function currentPhase(client){
+  const tasks=clientTasks(client).filter(t=>isActive(t)&&t.Fase);
+  if(!tasks.length)return'Sin fase activa';
+  const indices=tasks.map(t=>DATA.phases.indexOf(t.Fase)).filter(i=>i>=0);
+  const max=Math.max(...indices);
+  return DATA.phases[max]||'â';
+}
+
+// === BUILD NAVIGATION ===
+const pages=['overview','control','riesgo','clientes-riesgo','flujo','patrones',...DATA.clients.filter(c=>clientTasks(c).length>0)];
+const pageLabels={overview:'Vista General',control:'Control Semanal',riesgo:'Riesgo Actual','clientes-riesgo':'Clientes en Riesgo',flujo:'Flujo por Fase',patrones:'Patrones'};
+
+function buildNav(){
+  const nav=document.getElementById('nav');
+  nav.innerHTML=pages.map(p=>{
+    const label=pageLabels[p]||p;
+    const isClient=DATA.clients.includes(p);
+    const dot=isClient?'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+DATA.clientColors[p]+';margin-right:4px"></span>':'';
+    return'<button class="tab" data-page="'+p.replace(/\s/g,'-')+'">'+dot+label+'</button>';
+  }).join('');
+  nav.querySelectorAll('.tab').forEach(tab=>{
+    tab.onclick=()=>showPage(tab.dataset.page);
+  });
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg)pg.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>{if(t.dataset.page===id)t.classList.add('active');});
+}
+
+// === RENDER PAGES ===
+function render(){
+  const main=document.getElementById('main');
+  let html='';
+
+  // 1. VISTA GENERAL
+  const activeTasks=DATA.tasks.filter(isActive);
+  const blocked=DATA.tasks.filter(t=>t.Estado.includes('Bloqueado'));
+  const overdue=DATA.tasks.filter(isOverdue);
+  const clientsWithTasks=DATA.clients.filter(c=>clientTasks(c).length>0);
+
+  html+='<div class="page active" id="page-overview">';
+  html+='<div class="grid grid-4" style="margin-bottom:24px">';
+  html+='<div class="kpi-card"><div class="label">Tareas Activas</div><div class="value">'+activeTasks.length+'</div><div class="sub">excluyendo completadas y archivadas</div></div>';
+  html+='<div class="kpi-card"><div class="label">Bloqueadas</div><div class="value" style="color:var(--red)">'+blocked.length+'</div><div class="sub">requieren acciÃ³n inmediata</div></div>';
+  html+='<div class="kpi-card"><div class="label">Vencidas / Atrasadas</div><div class="value" style="color:var(--orange)">'+overdue.length+'</div><div class="sub">pasaron su fecha de tÃ©rmino</div></div>';
+  html+='<div class="kpi-card"><div class="label">Clientes Activos</div><div class="value">'+clientsWithTasks.length+'</div><div class="sub">con tareas en el PeM</div></div>';
+  html+='</div>';
+
+  // Client cards sorted by health score (worst first)
+  const sorted=clientsWithTasks.map(c=>({name:c,...healthScore(c),phase:currentPhase(c),tasks:clientTasks(c)})).sort((a,b)=>b.score-a.score);
+  html+='<div class="section-title">Clientes por Health Score <span class="count">'+sorted.length+'</span></div>';
+  html+='<div class="grid grid-3">';
+  sorted.forEach(c=>{
+    const active=c.tasks.filter(isActive);
+    const blk=c.tasks.filter(t=>t.Estado.includes('Bloqueado')).length;
+    const ovd=c.tasks.filter(isOverdue).length;
+    const comp=c.tasks.filter(t=>t.Estado.includes('Completado')).length;
+    html+='<div class="client-card" onclick="showPage(\''+c.name.replace(/\s/g,'-')+'\')">';
+    html+='<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:'+DATA.clientColors[c.name]+'"></span><span class="client-name">'+c.name+'</span></div>';
+    html+='<div class="client-phase">'+c.phase+'</div>';
+    html+='<div class="client-stats">';
+    html+='<div class="client-stat"><span class="num" style="color:'+c.color+'">'+c.score+'</span><span class="lbl">Riesgo</span></div>';
+    html+='<div class="client-stat"><span class="num">'+active.length+'</span><span class="lbl">Activas</span></div>';
+    html+='<div class="client-stat"><span class="num" style="color:var(--red)">'+blk+'</span><span class="lbl">Bloq.</span></div>';
+    html+='<div class="client-stat"><span class="num" style="color:var(--orange)">'+ovd+'</span><span class="lbl">Venc.</span></div>';
+    html+='<div class="client-stat"><span class="num" style="color:var(--green)">'+comp+'</span><span class="lbl">OK</span></div>';
+    html+='</div>';
+    html+='<div class="health-bar"><div class="health-fill" style="width:'+(100-c.score)+'%;background:'+c.color+'"></div></div>';
+    html+='</div>';
+  });
+  html+='</div></div>';
+
+  // 2. CONTROL SEMANAL
+  html+='<div class="page" id="page-control">';
+  html+='<div class="section-title">Control Semanal â Tareas Activas <span class="count">'+activeTasks.length+'</span></div>';
+  html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Responsables</th><th>Fecha TÃ©rmino</th></tr></thead><tbody>';
+  activeTasks.sort((a,b)=>{
+    if(a.Estado.includes('Bloqueado'))return-1;if(b.Estado.includes('Bloqueado'))return 1;
+    if(isOverdue(a)&&!isOverdue(b))return-1;if(!isOverdue(a)&&isOverdue(b))return 1;
+    return 0;
+  }).forEach(t=>{
+    const od=isOverdue(t)?'style="color:var(--red);font-weight:600"':'';
+    html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'â')+'</td><td>'+(t.Fase||'â')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="font-size:11px">'+(t.Responsables.length?t.Responsables.join(', '):'â')+'</td><td '+od+'>'+(t.FechaTermino||'â')+'</td></tr>';
+  });
+  html+='</tbody></table></div></div>';
+
+  // 3. RIESGO ACTUAL
+  const riskTasks=DATA.tasks.filter(t=>isOverdue(t));
+  html+='<div class="page" id="page-riesgo">';
+  html+='<div class="section-title">Riesgo Actual â Tareas Vencidas <span class="count">'+riskTasks.length+'</span></div>';
+  if(riskTasks.length){
+    html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Fecha TÃ©rmino</th><th>DÃ­as Vencida</th></tr></thead><tbody>';
+    riskTasks.forEach(t=>{
+      const days=Math.ceil((today-new Date(t.FechaTermino))/(1000*60*60*24));
+      html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'â')+'</td><td>'+(t.Fase||'â')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="color:var(--red)">'+t.FechaTermino+'</td><td style="color:var(--red);font-weight:700">'+days+' dÃ­as</td></tr>';
+    });
+    html+='</tbody></table></div>';
+  } else {
+    html+='<div class="card empty-state">No hay tareas vencidas actualmente</div>';
+  }
+  html+='</div>';
+
+  // 4. CLIENTES EN RIESGO
+  html+='<div class="page" id="page-clientes-riesgo">';
+  html+='<div class="section-title">Clientes en Riesgo <span class="count">'+blocked.length+' bloqueadas</span></div>';
+  DATA.clients.forEach(c=>{
+    const risk=clientTasks(c).filter(t=>t.Estado.includes('Bloqueado')||t.Estado.includes('RevisiÃ³n'));
+    if(!risk.length)return;
+    html+='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="width:10px;height:10px;border-radius:50%;background:'+DATA.clientColors[c]+'"></span><strong>'+c+'</strong></div>';
+    risk.forEach(t=>{
+      html+='<div class="task-item"><div class="task-item-header"><span class="task-item-name">'+t.Tarea+'</span>'+stateBadge(t.Estado)+'</div>';
+      html+='<div style="font-size:12px;color:var(--text-dim)">'+t.Fase+'</div>';
+      if(t.Bloqueado)html+='<div class="task-item-notes" style="color:var(--red)"><strong>Bloqueado por:</strong> '+t.Bloqueado+'</div>';
+      if(t.Notas)html+='<div class="task-item-notes">'+t.Notas+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  if(!blocked.length)html+='<div class="card empty-state">No hay clientes con tareas bloqueadas</div>';
+  html+='</div>';
+
+  // 5. FLUJO POR FASE
+  html+='<div class="page" id="page-flujo">';
+  html+='<div class="section-title">Flujo por Fase â Estado actual de cada cliente</div>';
+  html+='<div class="card">';
+  DATA.phases.forEach(phase=>{
+    const tasksInPhase=DATA.tasks.filter(t=>t.Fase===phase&&isActive(t));
+    const clientsInPhase=[...new Set(tasksInPhase.map(t=>t.Cliente).filter(Boolean))];
+    html+='<div class="phase-row">';
+    html+='<div class="phase-label">'+phase+'</div>';
+    html+='<div class="phase-clients">';
+    if(clientsInPhase.length){
+      clientsInPhase.forEach(c=>{
+        const ct=tasksInPhase.filter(t=>t.Cliente===c);
+        const hasBlocked=ct.some(t=>t.Estado.includes('Bloqueado'));
+        const hasOverdue=ct.some(isOverdue);
+        const border=hasBlocked?'2px solid var(--red)':hasOverdue?'2px solid var(--orange)':'none';
+        html+='<div class="phase-dot" style="background:'+DATA.clientColors[c]+';border:'+border+'" data-tip="'+c+' ('+ct.length+' tareas)" onclick="showPage(\''+c.replace(/\s/g,'-')+'\')">'+c.charAt(0)+'</div>';
+      });
+    } else {
+      html+='<span style="font-size:11px;color:var(--text-dim)">â</span>';
+    }
+    html+='</div></div>';
+  });
+  html+='</div></div>';
+
+  // 6. PATRONES
+  html+='<div class="page" id="page-patrones">';
+  html+='<div class="section-title">Patrones Detectados</div>';
+  html+='<div class="grid grid-2">';
+  // Auto-detect patterns
+  const patterns=[];
+  // Pattern: Clients with blocked tasks
+  const blockedClients=[...new Set(blocked.map(t=>t.Cliente).filter(Boolean))];
+  if(blockedClients.length)patterns.push({title:'Bloqueos por dependencias externas',desc:'Clientes con tareas bloqueadas por factores externos (proveedores, accesos de servidor, etc.)',affected:blockedClients,severity:'high'});
+  // Pattern: Overdue tasks
+  const overdueClients=[...new Set(overdue.map(t=>t.Cliente).filter(Boolean))];
+  if(overdueClients.length)patterns.push({title:'Tareas vencidas sin actualizar',desc:'Tareas que ya pasaron su fecha de tÃ©rmino y siguen activas.',affected:overdueClients,severity:'high'});
+  // Pattern: Clients in early phases
+  const earlyPhase=DATA.clients.filter(c=>{
+    const tasks=clientTasks(c).filter(t=>isActive(t)&&t.Fase);
+    if(!tasks.length)return false;
+    const maxIdx=Math.max(...tasks.map(t=>DATA.phases.indexOf(t.Fase)));
+    return maxIdx<=3;
+  });
+  if(earlyPhase.length)patterns.push({title:'Clientes en fases tempranas',desc:earlyPhase.length+' clientes aÃºn no pasan de Fase 4 (Integraciones).',affected:earlyPhase,severity:'info'});
+  // Pattern: Tasks without dates
+  const noDate=DATA.tasks.filter(t=>isActive(t)&&!t.FechaTermino&&t.Tipo==='Tarea');
+  if(noDate.length>3)patterns.push({title:'Tareas sin fecha de tÃ©rmino',desc:noDate.length+' tareas activas sin fecha de tÃ©rmino definida.',affected:[...new Set(noDate.map(t=>t.Cliente).filter(Boolean))],severity:'medium'});
+  // Pattern: Multiple active phases
+  const multiPhase=DATA.clients.filter(c=>{
+    const phases=[...new Set(clientTasks(c).filter(t=>isActive(t)&&t.Fase).map(t=>t.Fase))];
+    return phases.length>=3;
+  });
+  if(multiPhase.length)patterns.push({title:'Clientes con mÃºltiples fases simultÃ¡neas',desc:'Clientes trabajando en 3+ fases a la vez â posible dispersiÃ³n de esfuerzo.',affected:multiPhase,severity:'medium'});
+
+  patterns.forEach(p=>{
+    const bc=p.severity==='high'?'var(--red)':p.severity==='medium'?'var(--orange)':'var(--blue)';
+    html+='<div class="pattern-card" style="border-left-color:'+bc+'"><div class="pattern-title">'+p.title+'</div><div class="pattern-desc">'+p.desc+'</div><div class="affected">'+p.affected.map(a=>'<span class="badge badge-gray">'+a+'</span>').join('')+'</div></div>';
+  });
+  if(!patterns.length)html+='<div class="empty-state">No se detectaron patrones significativos</div>';
+  html+='</div></div>';
+
+  // 7. CLIENT PAGES
+  DATA.clients.forEach(c=>{
+    const tasks=clientTasks(c);
+    if(!tasks.length)return;
+    const active=tasks.filter(isActive);
+    const h=healthScore(c);
+    const id=c.replace(/\s/g,'-');
+
+    html+='<div class="page" id="page-'+id+'">';
+    // Header
+    html+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><span style="width:14px;height:14px;border-radius:50%;background:'+DATA.clientColors[c]+'"></span><h2 style="font-size:22px;font-weight:700">'+c+'</h2><span class="badge" style="background:'+h.color+'20;color:'+h.color+'">Riesgo: '+h.score+' â '+h.label+'</span></div>';
+
+    // KPIs
+    html+='<div class="grid grid-4" style="margin-bottom:24px">';
+    html+='<div class="kpi-card"><div class="label">Fase Actual</div><div class="value" style="font-size:16px;margin-top:8px">'+currentPhase(c)+'</div></div>';
+    html+='<div class="kpi-card"><div class="label">Tareas Activas</div><div class="value">'+active.length+'</div></div>';
+    html+='<div class="kpi-card"><div class="label">Bloqueadas</div><div class="value" style="color:var(--red)">'+tasks.filter(t=>t.Estado.includes('Bloqueado')).length+'</div></div>';
+    html+='<div class="kpi-card"><div class="label">Vencidas</div><div class="value" style="color:var(--orange)">'+tasks.filter(isOverdue).length+'</div></div>';
+    html+='</div>';
+
+    // Tasks by phase
+    const phases=[...new Set(tasks.map(t=>t.Fase).filter(Boolean))].sort((a,b)=>DATA.phases.indexOf(a)-DATA.phases.indexOf(b));
+    phases.forEach(phase=>{
+      const pTasks=tasks.filter(t=>t.Fase===phase);
+      html+='<div class="detail-section"><h3>'+phase+' <span class="count">'+pTasks.length+'</span></h3>';
+      pTasks.forEach(t=>{
+        html+='<div class="task-item"><div class="task-item-header"><span class="task-item-name">'+t.Tarea+'</span><span>'+stateBadge(t.Estado)+'</span></div>';
+        const meta=[];
+        if(t.FechaInicio)meta.push('Inicio: '+t.FechaInicio);
+        if(t.FechaTermino)meta.push('TÃ©rmino: '+t.FechaTermino);
+        if(t.Responsables.length)meta.push('Resp: '+t.Responsables.join(', '));
+        if(meta.length)html+='<div style="font-size:11px;color:var(--text-dim);margin-top:4px">'+meta.join(' Â· ')+'</div>';
+        if(t.Bloqueado)html+='<div class="task-item-notes" style="color:var(--red)"><strong>Bloqueado por:</strong> '+t.Bloqueado+'</div>';
+        if(t.Notas)html+='<div class="task-item-notes">'+t.Notas+'</div>';
+        html+='</div>';
+      });
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+
+  main.innerHTML=html;
+}
+
+buildNav();
+render();
+showPage('overview');
 </script>
 </body>
 </html>
