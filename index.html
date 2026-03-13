@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PeM Dashboard v3 â YOM</title>
+<title>PeM Dashboard v3 — YOM</title>
 <style>
 :root{--bg:#f8f9fb;--surface:#fff;--surface2:#f1f3f5;--border:#e2e5e9;--text:#1a1d23;--text-dim:#6b7280;--accent:#4f6ef7;--red:#ef4444;--orange:#f59e0b;--yellow:#eab308;--green:#22c55e;--blue:#3b82f6;--purple:#8b5cf6;--pink:#ec4899}
 [data-theme="dark"]{--bg:#0f1117;--surface:#1a1d27;--surface2:#252830;--border:#2d3039;--text:#e4e7ef;--text-dim:#8b90a0;--accent:#6c8cff;--red:#f87171;--orange:#fbbf24;--yellow:#facc15;--green:#4ade80;--blue:#60a5fa;--purple:#a78bfa;--pink:#f472b6}
@@ -89,42 +89,42 @@ tr:hover{background:var(--surface2)}
 </div>
 <div class="nav" id="nav"></div>
 <div class="main" id="main"></div>
-<div class="generated-note">Generado desde Notion â ðºï¸ Puesta en Marcha 2026<br><span id="gen-date"></span></div>
+<div class="generated-note">Generado desde Notion — 🗺️ Puesta en Marcha 2026<br><span id="gen-date"></span></div>
 
 <script>
 // === DATA FROM NOTION ===
 const DATA = {
   generated: "2026-03-12T17:38:00-03:00",
-  clients: ["Prinorte","Caren","BastiÃ©n","Codelpa PerÃº","Soprole","Cedisur","CoÃ©xito"],
-  clientColors: {Prinorte:"#ef4444",Caren:"#eab308",BastiÃ©n:"#ec4899","Codelpa PerÃº":"#3b82f6",Soprole:"#f59e0b",Cedisur:"#3b82f6",CoÃ©xito:"#92400e"},
+  clients: ["Prinorte","Caren","Bastién","Codelpa Perú","Soprole","Cedisur","Coéxito"],
+  clientColors: {Prinorte:"#ef4444",Caren:"#eab308",Bastién:"#ec4899","Codelpa Perú":"#3b82f6",Soprole:"#f59e0b",Cedisur:"#3b82f6",Coéxito:"#92400e"},
   phases: ["1. Levantamiento","2. Entrega de datos y servicios","3. Kick off","4. Integraciones","5. Cuadratura","6. Desarrollos","7. Configuraciones","8. QA y Testing","9. Capacitaciones","10. Rollout","11. Traspaso","12. Review"],
-  states: ["ð¦Pendiente","ð En progreso","â Completado","ð« Bloqueado","ð§ En RevisiÃ³n","ðï¸ Archivado"],
+  states: ["🚦Pendiente","🔄 En progreso","✅ Completado","🚫 Bloqueado","🧐 En Revisión","🗃️ Archivado"],
   tasks: [
-    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"3. Kick off","FechaInicio":"2026-03-22","FechaTermino":"2026-03-22","Bloqueado":"","Notas":"Workshops completados (ventas, tecnologÃ­a, comercial). Caren en levantamiento esperando servicios completos. Pendiente: Daniel debe enviar cambios requeridos, Alejandro debe enviar roadmap al cliente.","Responsables":[]},
-    {"Tarea":"InyecciÃ³n de pedidos cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"6. Desarrollos","FechaInicio":"2026-03-16","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"","Responsables":[]},
-    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Caren","Estado":"ð¦Pendiente","Fase":"8. QA y Testing","FechaInicio":"2026-04-15","FechaTermino":"2026-04-17","Bloqueado":"","Notas":"","Responsables":[]},
-    {"Tarea":"CapacitaciÃ³n de distintos usuarios","Tipo":"Tarea","Cliente":"Prinorte","Estado":"ð En progreso","Fase":"9. Capacitaciones","FechaInicio":"2026-03-11","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"Max estÃ¡ desarrollando nueva metodologÃ­a de capacitaciÃ³n. Inicio presencial programado miÃ©rcoles 11.","Responsables":["Project Manager"]},
-    {"Tarea":"Proceso de cuadratura","Tipo":"Tarea","Cliente":"Prinorte","Estado":"ð En progreso","Fase":"5. Cuadratura","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"ConexiÃ³n establecida, errores de prisma resueltos, transacciones llegando correctamente. Pendiente: armar categorÃ­as (asignado a Daniel).","Responsables":["Data team"]},
-    {"Tarea":"Cuadratura de datos con cliente","Tipo":"Sub-tarea","Cliente":"Prinorte","Estado":"ð¦Pendiente","Fase":null,"FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":[]},
-    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"BastiÃ©n","Estado":"ð« Bloqueado","Fase":"4. Integraciones","FechaInicio":null,"FechaTermino":null,"Bloqueado":"Exxis no ha entregado datos ni confirmado plazo de entrega. Miguel (BBone) coordinando.","Notas":"ReuniÃ³n urgente fallida â cambio de servidor sin previo aviso causÃ³ pÃ©rdida total de conectividad. Miguel (BBone) re-coordinarÃ¡ cuando se restauren accesos. Error API activo. Follow-up plazo de entrega Exxis â Francisco insiste en necesitar fecha.","Responsables":["QA Specialist"]},
-    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"â Completado","Fase":"3. Kick off","FechaInicio":"2025-09-14","FechaTermino":"2025-09-14","Bloqueado":"","Notas":"","Responsables":[]},
-    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"4. Integraciones","FechaInicio":"2025-09-14","FechaTermino":null,"Bloqueado":"","Notas":"IntegraciÃ³n base corriendo desde Oct-2025. CatÃ¡logo incompleto â 241 prods, 3 segmentos, 1 con 0 prods, 29 con override mal. Camilo (Codelpa) confirmÃ³ Excel con todos los productos habilitados. Pendiente: Daniel debe enviar ejemplo de producto.","Responsables":[]},
-    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"CatÃ¡logo incompleto: 241 prods, 3 segmentos, 1 segmento con 0 prods habilitados, 29 prods con precios override mal. ValidaciÃ³n MongoâRDS pendiente con Mario/Virtus.","Responsables":["QA Specialist","Project Manager"]},
-    {"Tarea":"Pruebas end to end","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":"2025-09-24","FechaTermino":null,"Bloqueado":"","Notas":"InserciÃ³n pedidos OK. Pruebas vendedores frenadas por Vicente. Paso a producciÃ³n solicitado Nov-2025. Sin evidencia de pruebas E2E completas en 2026.","Responsables":["QA Specialist"]},
-    {"Tarea":"Rollout a producciÃ³n","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Codelpa solicitÃ³ paso a producciÃ³n en Nov-2025. Pendientes: disponibilizar servicios producciÃ³n y levantar ambiente. Sin confirmaciÃ³n de ambiente prod activo en 2026.","Responsables":["Project Manager","LÃ­der PeM","Tech cliente"]},
-    {"Tarea":"Traspaso a Customer Outcomes","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Proyecto aÃºn en Fases 4-8. Traspaso a CO no aplicable hasta completar rollout.","Responsables":["LÃ­der PeM","Customer Outcomes","Project Manager"]},
-    {"Tarea":"Review post-lanzamiento","Tipo":"Tarea","Cliente":"Codelpa PerÃº","Estado":"ð¦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["LÃ­der PeM","Customer Outcomes","Project Manager"]},
-    {"Tarea":"Paso a producciÃ³n B2B v2.0","Tipo":"Tarea","Cliente":"Soprole","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Ãnico pendiente PeM: esperar que el cliente autorice paso a producciÃ³n. Todo lo demÃ¡s estÃ¡ listo. CondiciÃ³n: dominio creado y configurado.","Responsables":["Project Manager","LÃ­der PeM"]},
-    {"Tarea":"CreaciÃ³n y configuraciÃ³n del dominio","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"ð En progreso","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Cecilia (Soprole) confirma validaciÃ³n dominio producciÃ³n en curso con Ciberseguridad e Infraestructura. Quantor necesita 2 dÃ­as para SFTP productivo. Ruta crÃ­tica.","Responsables":[]},
-    {"Tarea":"Monitoreo go-live desde las 8am del 11-Mar","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"Alejandro confirmÃ³ que Soprole aÃºn NO pasa a producciÃ³n. Monitoreo pendiente hasta que se defina nuevo go-live.","Responsables":[]},
-    {"Tarea":"Desarrollo precio por kg","Tipo":"Tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"6. Desarrollos","FechaInicio":null,"FechaTermino":"2026-03-14","Bloqueado":"","Notas":"Alejandro dijo 'imposible meterlo ahora' en Slack pero en minuta confirmÃ³ 'la vamos a tener el viernes'. Fecha estimada: viernes 14-Mar-2026.","Responsables":[]},
-    {"Tarea":"Fix cobranza transferencias/cheques","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Bug persiste: transferencia y cheque siguen pasando como Mercado Pago. 5 intentos totales, 2 fallaron (cheque). Daniel trabajando en el fix.","Responsables":[]},
-    {"Tarea":"Prueba de campo 11-Mar","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"ð En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"DÃ­a 2 pruebas en terreno. Bugs de pagos y precios detectados. ReuniÃ³n 13-Mar 14:30 confirmada para revisar resultados.","Responsables":[]},
-    {"Tarea":"Paso a producciÃ³n","Tipo":"Tarea","Cliente":"Cedisur","Estado":"ð¦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Condicionado a: (1) fix pagos, (2) peso por kg viernes, (3) pruebas campo exitosas.","Responsables":["Project Manager","LÃ­der PeM"]},
-    {"Tarea":"DocumentaciÃ³n de integraciÃ³n","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead"]},
-    {"Tarea":"ReuniÃ³n de entrega interna","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead","Customer Outcomes"]},
-    {"Tarea":"ReuniÃ³n de entrega externa","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["PM cliente","Project Manager","Customer Outcomes"]},
-    {"Tarea":"ReuniÃ³n de revisiÃ³n de errores, aciertos y mejoras","Tipo":"Tarea","Cliente":null,"Estado":"ð¦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["LÃ­der PeM","Project Manager","Integrations Lead","QA Specialist","Integrations partner","Business Analyst"]}
+    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"🚦Pendiente","Fase":"3. Kick off","FechaInicio":"2026-03-22","FechaTermino":"2026-03-22","Bloqueado":"","Notas":"Workshops completados (ventas, tecnología, comercial). Caren en levantamiento esperando servicios completos. Pendiente: Daniel debe enviar cambios requeridos, Alejandro debe enviar roadmap al cliente.","Responsables":[]},
+    {"Tarea":"Inyección de pedidos cliente","Tipo":"Tarea","Cliente":"Caren","Estado":"🚦Pendiente","Fase":"6. Desarrollos","FechaInicio":"2026-03-16","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Caren","Estado":"🚦Pendiente","Fase":"8. QA y Testing","FechaInicio":"2026-04-15","FechaTermino":"2026-04-17","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Capacitación de distintos usuarios","Tipo":"Tarea","Cliente":"Prinorte","Estado":"🔄 En progreso","Fase":"9. Capacitaciones","FechaInicio":"2026-03-11","FechaTermino":"2026-03-18","Bloqueado":"","Notas":"Max está desarrollando nueva metodología de capacitación. Inicio presencial programado miércoles 11.","Responsables":["Project Manager"]},
+    {"Tarea":"Proceso de cuadratura","Tipo":"Tarea","Cliente":"Prinorte","Estado":"🔄 En progreso","Fase":"5. Cuadratura","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Conexión establecida, errores de prisma resueltos, transacciones llegando correctamente. Pendiente: armar categorías (asignado a Daniel).","Responsables":["Data team"]},
+    {"Tarea":"Cuadratura de datos con cliente","Tipo":"Sub-tarea","Cliente":"Prinorte","Estado":"🚦Pendiente","Fase":null,"FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"Bastién","Estado":"🚫 Bloqueado","Fase":"4. Integraciones","FechaInicio":null,"FechaTermino":null,"Bloqueado":"Exxis no ha entregado datos ni confirmado plazo de entrega. Miguel (BBone) coordinando.","Notas":"Reunión urgente fallida — cambio de servidor sin previo aviso causó pérdida total de conectividad. Miguel (BBone) re-coordinará cuando se restauren accesos. Error API activo. Follow-up plazo de entrega Exxis — Francisco insiste en necesitar fecha.","Responsables":["QA Specialist"]},
+    {"Tarea":"Handoff cara al cliente","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"✅ Completado","Fase":"3. Kick off","FechaInicio":"2025-09-14","FechaTermino":"2025-09-14","Bloqueado":"","Notas":"","Responsables":[]},
+    {"Tarea":"Conectar datos/servicios","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🔄 En progreso","Fase":"4. Integraciones","FechaInicio":"2025-09-14","FechaTermino":null,"Bloqueado":"","Notas":"Integración base corriendo desde Oct-2025. Catálogo incompleto — 241 prods, 3 segmentos, 1 con 0 prods, 29 con override mal. Camilo (Codelpa) confirmó Excel con todos los productos habilitados. Pendiente: Daniel debe enviar ejemplo de producto.","Responsables":[]},
+    {"Tarea":"Cuadratura de datos con cliente (RDS y Mongo)","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🔄 En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Catálogo incompleto: 241 prods, 3 segmentos, 1 segmento con 0 prods habilitados, 29 prods con precios override mal. Validación Mongo→RDS pendiente con Mario/Virtus.","Responsables":["QA Specialist","Project Manager"]},
+    {"Tarea":"Pruebas end to end","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🔄 En progreso","Fase":"8. QA y Testing","FechaInicio":"2025-09-24","FechaTermino":null,"Bloqueado":"","Notas":"Inserción pedidos OK. Pruebas vendedores frenadas por Vicente. Paso a producción solicitado Nov-2025. Sin evidencia de pruebas E2E completas en 2026.","Responsables":["QA Specialist"]},
+    {"Tarea":"Rollout a producción","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🚦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Codelpa solicitó paso a producción en Nov-2025. Pendientes: disponibilizar servicios producción y levantar ambiente. Sin confirmación de ambiente prod activo en 2026.","Responsables":["Project Manager","Líder PeM","Tech cliente"]},
+    {"Tarea":"Traspaso a Customer Outcomes","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🚦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Proyecto aún en Fases 4-8. Traspaso a CO no aplicable hasta completar rollout.","Responsables":["Líder PeM","Customer Outcomes","Project Manager"]},
+    {"Tarea":"Review post-lanzamiento","Tipo":"Tarea","Cliente":"Codelpa Perú","Estado":"🚦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Líder PeM","Customer Outcomes","Project Manager"]},
+    {"Tarea":"Paso a producción B2B v2.0","Tipo":"Tarea","Cliente":"Soprole","Estado":"🚦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Único pendiente PeM: esperar que el cliente autorice paso a producción. Todo lo demás está listo. Condición: dominio creado y configurado.","Responsables":["Project Manager","Líder PeM"]},
+    {"Tarea":"Creación y configuración del dominio","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"🔄 En progreso","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Cecilia (Soprole) confirma validación dominio producción en curso con Ciberseguridad e Infraestructura. Quantor necesita 2 días para SFTP productivo. Ruta crítica.","Responsables":[]},
+    {"Tarea":"Monitoreo go-live desde las 8am del 11-Mar","Tipo":"Sub-tarea","Cliente":"Soprole","Estado":"🚦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"Alejandro confirmó que Soprole aún NO pasa a producción. Monitoreo pendiente hasta que se defina nuevo go-live.","Responsables":[]},
+    {"Tarea":"Desarrollo precio por kg","Tipo":"Tarea","Cliente":"Cedisur","Estado":"🔄 En progreso","Fase":"6. Desarrollos","FechaInicio":null,"FechaTermino":"2026-03-14","Bloqueado":"","Notas":"Alejandro dijo 'imposible meterlo ahora' en Slack pero en minuta confirmó 'la vamos a tener el viernes'. Fecha estimada: viernes 14-Mar-2026.","Responsables":[]},
+    {"Tarea":"Fix cobranza transferencias/cheques","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"🔄 En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Bug persiste: transferencia y cheque siguen pasando como Mercado Pago. 5 intentos totales, 2 fallaron (cheque). Daniel trabajando en el fix.","Responsables":[]},
+    {"Tarea":"Prueba de campo 11-Mar","Tipo":"Sub-tarea","Cliente":"Cedisur","Estado":"🔄 En progreso","Fase":"8. QA y Testing","FechaInicio":null,"FechaTermino":"2026-03-11","Bloqueado":"","Notas":"Día 2 pruebas en terreno. Bugs de pagos y precios detectados. Reunión 13-Mar 14:30 confirmada para revisar resultados.","Responsables":[]},
+    {"Tarea":"Paso a producción","Tipo":"Tarea","Cliente":"Cedisur","Estado":"🚦Pendiente","Fase":"10. Rollout","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"Condicionado a: (1) fix pagos, (2) peso por kg viernes, (3) pruebas campo exitosas.","Responsables":["Project Manager","Líder PeM"]},
+    {"Tarea":"Documentación de integración","Tipo":"Tarea","Cliente":null,"Estado":"🚦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead"]},
+    {"Tarea":"Reunión de entrega interna","Tipo":"Tarea","Cliente":null,"Estado":"🚦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Project Manager","Integrations Lead","Customer Outcomes"]},
+    {"Tarea":"Reunión de entrega externa","Tipo":"Tarea","Cliente":null,"Estado":"🚦Pendiente","Fase":"11. Traspaso","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["PM cliente","Project Manager","Customer Outcomes"]},
+    {"Tarea":"Reunión de revisión de errores, aciertos y mejoras","Tipo":"Tarea","Cliente":null,"Estado":"🚦Pendiente","Fase":"12. Review","FechaInicio":null,"FechaTermino":null,"Bloqueado":"","Notas":"","Responsables":["Líder PeM","Project Manager","Integrations Lead","QA Specialist","Integrations partner","Business Analyst"]}
   ]
 };
 
@@ -136,17 +136,17 @@ function toggleTheme(){
 (function initTheme(){const t=localStorage.getItem('pem-theme');if(t)document.body.dataset.theme=t;})();
 
 document.getElementById('timestamp').textContent='Actualizado: '+new Date(DATA.generated).toLocaleString('es-CL');
-document.getElementById('gen-date').textContent='Ãltima sincronizaciÃ³n: '+new Date(DATA.generated).toLocaleString('es-CL');
+document.getElementById('gen-date').textContent='Última sincronización: '+new Date(DATA.generated).toLocaleString('es-CL');
 
 const today=new Date();
-function isOverdue(t){return t.FechaTermino&&t.Estado!=='â Completado'&&t.Estado!=='ðï¸ Archivado'&&new Date(t.FechaTermino)<today}
-function isActive(t){return t.Estado!=='â Completado'&&t.Estado!=='ðï¸ Archivado'}
+function isOverdue(t){return t.FechaTermino&&t.Estado!=='✅ Completado'&&t.Estado!=='🗃️ Archivado'&&new Date(t.FechaTermino)<today}
+function isActive(t){return t.Estado!=='✅ Completado'&&t.Estado!=='🗃️ Archivado'}
 function clientTasks(c){return DATA.tasks.filter(t=>t.Cliente===c)}
 function stateBadge(s){
   if(s.includes('Bloqueado'))return'<span class="badge badge-red">'+s+'</span>';
   if(s.includes('progreso'))return'<span class="badge badge-blue">'+s+'</span>';
   if(s.includes('Completado'))return'<span class="badge badge-green">'+s+'</span>';
-  if(s.includes('RevisiÃ³n'))return'<span class="badge badge-orange">'+s+'</span>';
+  if(s.includes('Revisión'))return'<span class="badge badge-orange">'+s+'</span>';
   if(s.includes('Pendiente'))return'<span class="badge badge-gray">'+s+'</span>';
   return'<span class="badge badge-gray">'+s+'</span>';
 }
@@ -167,7 +167,7 @@ function healthScore(client){
   score+=overdue*15;
   score=Math.max(0,Math.min(100,Math.round(score)));
   const color=score<=30?'var(--green)':score<=60?'var(--orange)':'var(--red)';
-  const label=score<=30?'Saludable':score<=60?'AtenciÃ³n':'CrÃ­tico';
+  const label=score<=30?'Saludable':score<=60?'Atención':'Crítico';
   return{score,label,color};
 }
 
@@ -177,7 +177,7 @@ function currentPhase(client){
   if(!tasks.length)return'Sin fase activa';
   const indices=tasks.map(t=>DATA.phases.indexOf(t.Fase)).filter(i=>i>=0);
   const max=Math.max(...indices);
-  return DATA.phases[max]||'â';
+  return DATA.phases[max]||'—';
 }
 
 // === BUILD NAVIGATION ===
@@ -219,8 +219,8 @@ function render(){
   html+='<div class="page active" id="page-overview">';
   html+='<div class="grid grid-4" style="margin-bottom:24px">';
   html+='<div class="kpi-card"><div class="label">Tareas Activas</div><div class="value">'+activeTasks.length+'</div><div class="sub">excluyendo completadas y archivadas</div></div>';
-  html+='<div class="kpi-card"><div class="label">Bloqueadas</div><div class="value" style="color:var(--red)">'+blocked.length+'</div><div class="sub">requieren acciÃ³n inmediata</div></div>';
-  html+='<div class="kpi-card"><div class="label">Vencidas / Atrasadas</div><div class="value" style="color:var(--orange)">'+overdue.length+'</div><div class="sub">pasaron su fecha de tÃ©rmino</div></div>';
+  html+='<div class="kpi-card"><div class="label">Bloqueadas</div><div class="value" style="color:var(--red)">'+blocked.length+'</div><div class="sub">requieren acción inmediata</div></div>';
+  html+='<div class="kpi-card"><div class="label">Vencidas / Atrasadas</div><div class="value" style="color:var(--orange)">'+overdue.length+'</div><div class="sub">pasaron su fecha de término</div></div>';
   html+='<div class="kpi-card"><div class="label">Clientes Activos</div><div class="value">'+clientsWithTasks.length+'</div><div class="sub">con tareas en el PeM</div></div>';
   html+='</div>';
 
@@ -250,27 +250,27 @@ function render(){
 
   // 2. CONTROL SEMANAL
   html+='<div class="page" id="page-control">';
-  html+='<div class="section-title">Control Semanal â Tareas Activas <span class="count">'+activeTasks.length+'</span></div>';
-  html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Responsables</th><th>Fecha TÃ©rmino</th></tr></thead><tbody>';
+  html+='<div class="section-title">Control Semanal — Tareas Activas <span class="count">'+activeTasks.length+'</span></div>';
+  html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Responsables</th><th>Fecha Término</th></tr></thead><tbody>';
   activeTasks.sort((a,b)=>{
     if(a.Estado.includes('Bloqueado'))return-1;if(b.Estado.includes('Bloqueado'))return 1;
     if(isOverdue(a)&&!isOverdue(b))return-1;if(!isOverdue(a)&&isOverdue(b))return 1;
     return 0;
   }).forEach(t=>{
     const od=isOverdue(t)?'style="color:var(--red);font-weight:600"':'';
-    html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'â')+'</td><td>'+(t.Fase||'â')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="font-size:11px">'+(t.Responsables.length?t.Responsables.join(', '):'â')+'</td><td '+od+'>'+(t.FechaTermino||'â')+'</td></tr>';
+    html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'—')+'</td><td>'+(t.Fase||'—')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="font-size:11px">'+(t.Responsables.length?t.Responsables.join(', '):'—')+'</td><td '+od+'>'+(t.FechaTermino||'—')+'</td></tr>';
   });
   html+='</tbody></table></div></div>';
 
   // 3. RIESGO ACTUAL
   const riskTasks=DATA.tasks.filter(t=>isOverdue(t));
   html+='<div class="page" id="page-riesgo">';
-  html+='<div class="section-title">Riesgo Actual â Tareas Vencidas <span class="count">'+riskTasks.length+'</span></div>';
+  html+='<div class="section-title">Riesgo Actual — Tareas Vencidas <span class="count">'+riskTasks.length+'</span></div>';
   if(riskTasks.length){
-    html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Fecha TÃ©rmino</th><th>DÃ­as Vencida</th></tr></thead><tbody>';
+    html+='<div class="card" style="overflow-x:auto"><table><thead><tr><th>Tarea</th><th>Cliente</th><th>Fase</th><th>Estado</th><th>Fecha Término</th><th>Días Vencida</th></tr></thead><tbody>';
     riskTasks.forEach(t=>{
       const days=Math.ceil((today-new Date(t.FechaTermino))/(1000*60*60*24));
-      html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'â')+'</td><td>'+(t.Fase||'â')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="color:var(--red)">'+t.FechaTermino+'</td><td style="color:var(--red);font-weight:700">'+days+' dÃ­as</td></tr>';
+      html+='<tr><td style="font-weight:600">'+t.Tarea+'</td><td>'+(t.Cliente||'—')+'</td><td>'+(t.Fase||'—')+'</td><td>'+stateBadge(t.Estado)+'</td><td style="color:var(--red)">'+t.FechaTermino+'</td><td style="color:var(--red);font-weight:700">'+days+' días</td></tr>';
     });
     html+='</tbody></table></div>';
   } else {
@@ -282,7 +282,7 @@ function render(){
   html+='<div class="page" id="page-clientes-riesgo">';
   html+='<div class="section-title">Clientes en Riesgo <span class="count">'+blocked.length+' bloqueadas</span></div>';
   DATA.clients.forEach(c=>{
-    const risk=clientTasks(c).filter(t=>t.Estado.includes('Bloqueado')||t.Estado.includes('RevisiÃ³n'));
+    const risk=clientTasks(c).filter(t=>t.Estado.includes('Bloqueado')||t.Estado.includes('Revisión'));
     if(!risk.length)return;
     html+='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="width:10px;height:10px;border-radius:50%;background:'+DATA.clientColors[c]+'"></span><strong>'+c+'</strong></div>';
     risk.forEach(t=>{
@@ -299,7 +299,7 @@ function render(){
 
   // 5. FLUJO POR FASE
   html+='<div class="page" id="page-flujo">';
-  html+='<div class="section-title">Flujo por Fase â Estado actual de cada cliente</div>';
+  html+='<div class="section-title">Flujo por Fase — Estado actual de cada cliente</div>';
   html+='<div class="card">';
   DATA.phases.forEach(phase=>{
     const tasksInPhase=DATA.tasks.filter(t=>t.Fase===phase&&isActive(t));
@@ -316,7 +316,7 @@ function render(){
         html+='<div class="phase-dot" style="background:'+DATA.clientColors[c]+';border:'+border+'" data-tip="'+c+' ('+ct.length+' tareas)" onclick="showPage(\''+c.replace(/\s/g,'-')+'\')">'+c.charAt(0)+'</div>';
       });
     } else {
-      html+='<span style="font-size:11px;color:var(--text-dim)">â</span>';
+      html+='<span style="font-size:11px;color:var(--text-dim)">—</span>';
     }
     html+='</div></div>';
   });
@@ -333,7 +333,7 @@ function render(){
   if(blockedClients.length)patterns.push({title:'Bloqueos por dependencias externas',desc:'Clientes con tareas bloqueadas por factores externos (proveedores, accesos de servidor, etc.)',affected:blockedClients,severity:'high'});
   // Pattern: Overdue tasks
   const overdueClients=[...new Set(overdue.map(t=>t.Cliente).filter(Boolean))];
-  if(overdueClients.length)patterns.push({title:'Tareas vencidas sin actualizar',desc:'Tareas que ya pasaron su fecha de tÃ©rmino y siguen activas.',affected:overdueClients,severity:'high'});
+  if(overdueClients.length)patterns.push({title:'Tareas vencidas sin actualizar',desc:'Tareas que ya pasaron su fecha de término y siguen activas.',affected:overdueClients,severity:'high'});
   // Pattern: Clients in early phases
   const earlyPhase=DATA.clients.filter(c=>{
     const tasks=clientTasks(c).filter(t=>isActive(t)&&t.Fase);
@@ -341,16 +341,16 @@ function render(){
     const maxIdx=Math.max(...tasks.map(t=>DATA.phases.indexOf(t.Fase)));
     return maxIdx<=3;
   });
-  if(earlyPhase.length)patterns.push({title:'Clientes en fases tempranas',desc:earlyPhase.length+' clientes aÃºn no pasan de Fase 4 (Integraciones).',affected:earlyPhase,severity:'info'});
+  if(earlyPhase.length)patterns.push({title:'Clientes en fases tempranas',desc:earlyPhase.length+' clientes aún no pasan de Fase 4 (Integraciones).',affected:earlyPhase,severity:'info'});
   // Pattern: Tasks without dates
   const noDate=DATA.tasks.filter(t=>isActive(t)&&!t.FechaTermino&&t.Tipo==='Tarea');
-  if(noDate.length>3)patterns.push({title:'Tareas sin fecha de tÃ©rmino',desc:noDate.length+' tareas activas sin fecha de tÃ©rmino definida.',affected:[...new Set(noDate.map(t=>t.Cliente).filter(Boolean))],severity:'medium'});
+  if(noDate.length>3)patterns.push({title:'Tareas sin fecha de término',desc:noDate.length+' tareas activas sin fecha de término definida.',affected:[...new Set(noDate.map(t=>t.Cliente).filter(Boolean))],severity:'medium'});
   // Pattern: Multiple active phases
   const multiPhase=DATA.clients.filter(c=>{
     const phases=[...new Set(clientTasks(c).filter(t=>isActive(t)&&t.Fase).map(t=>t.Fase))];
     return phases.length>=3;
   });
-  if(multiPhase.length)patterns.push({title:'Clientes con mÃºltiples fases simultÃ¡neas',desc:'Clientes trabajando en 3+ fases a la vez â posible dispersiÃ³n de esfuerzo.',affected:multiPhase,severity:'medium'});
+  if(multiPhase.length)patterns.push({title:'Clientes con múltiples fases simultáneas',desc:'Clientes trabajando en 3+ fases a la vez — posible dispersión de esfuerzo.',affected:multiPhase,severity:'medium'});
 
   patterns.forEach(p=>{
     const bc=p.severity==='high'?'var(--red)':p.severity==='medium'?'var(--orange)':'var(--blue)';
@@ -369,7 +369,7 @@ function render(){
 
     html+='<div class="page" id="page-'+id+'">';
     // Header
-    html+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><span style="width:14px;height:14px;border-radius:50%;background:'+DATA.clientColors[c]+'"></span><h2 style="font-size:22px;font-weight:700">'+c+'</h2><span class="badge" style="background:'+h.color+'20;color:'+h.color+'">Riesgo: '+h.score+' â '+h.label+'</span></div>';
+    html+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><span style="width:14px;height:14px;border-radius:50%;background:'+DATA.clientColors[c]+'"></span><h2 style="font-size:22px;font-weight:700">'+c+'</h2><span class="badge" style="background:'+h.color+'20;color:'+h.color+'">Riesgo: '+h.score+' — '+h.label+'</span></div>';
 
     // KPIs
     html+='<div class="grid grid-4" style="margin-bottom:24px">';
@@ -388,9 +388,9 @@ function render(){
         html+='<div class="task-item"><div class="task-item-header"><span class="task-item-name">'+t.Tarea+'</span><span>'+stateBadge(t.Estado)+'</span></div>';
         const meta=[];
         if(t.FechaInicio)meta.push('Inicio: '+t.FechaInicio);
-        if(t.FechaTermino)meta.push('TÃ©rmino: '+t.FechaTermino);
+        if(t.FechaTermino)meta.push('Término: '+t.FechaTermino);
         if(t.Responsables.length)meta.push('Resp: '+t.Responsables.join(', '));
-        if(meta.length)html+='<div style="font-size:11px;color:var(--text-dim);margin-top:4px">'+meta.join(' Â· ')+'</div>';
+        if(meta.length)html+='<div style="font-size:11px;color:var(--text-dim);margin-top:4px">'+meta.join(' · ')+'</div>';
         if(t.Bloqueado)html+='<div class="task-item-notes" style="color:var(--red)"><strong>Bloqueado por:</strong> '+t.Bloqueado+'</div>';
         if(t.Notas)html+='<div class="task-item-notes">'+t.Notas+'</div>';
         html+='</div>';
